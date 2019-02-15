@@ -12,9 +12,9 @@ type Parser struct {
 
 func CreateParser() *Parser {
 	return &Parser{
+		Output:  make(chan interface{}),
 		manager: make([]*ctrlbus.Ctrlbus, 0),
 		seekers: make(chan chan interface{}),
-		Output:  make(chan interface{}),
 	}
 }
 
