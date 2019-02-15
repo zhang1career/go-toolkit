@@ -10,6 +10,7 @@ type Traverser struct {
 	Parse   func(interface{}) ([]interface{}, interface{})
 	Root    func(interface{}) bool
 	Done    func(interface{}) bool
+	// abstract fuctions
 	pend    func([]interface{}, interface{}) []interface{}
 }
 

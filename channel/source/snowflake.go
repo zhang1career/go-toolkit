@@ -1,6 +1,7 @@
 package source
 
 import (
+	"github.com/zhang1career/lib/channel/concurrent"
 	"math/rand"
 	"time"
 )
@@ -26,47 +27,60 @@ const (
 	bitNano2Mil  = 23  // 10'000'000'000 nanosecond >> 23 = 1 ms
 )
 
-type Worker struct {
-	t uint64
-	m uint64
-	s uint64
+
+/*
+ * base function
+ */
+func Compose(machineId uint64) uint64 {
+	t := (uint64(time.Now().UnixNano()) << (bitM + bitS - bitNano2Mil)) & maskT
+	m := (machineId << bitS) & maskM
+	s := uint64(rand.Uint32()) & maskS
+	
+	return t | m | s
 }
 
-func CreateWorker(machineId uint16) *Worker {
-	return &Worker{
-		m:  uint64(machineId),
-	}
+func Decompose(input uint64) (int, int, int) {
+	t := int(((input & maskT) >> (bitM + bitS - bitNano2Mil)) / 1e6) // in ms
+	m := int((input & maskM) >> bitM)
+	s := int(input & maskS)
+	return t, m, s
 }
 
-func (this *Worker) Run(done <-chan interface{}) <-chan uint64{
-	out := make(chan uint64)
+
+/*
+ * stateful function
+ */
+type snowflake struct {
+	m   interface{}
+}
+
+func CreateSnowFlake(machineId int) *snowflake {
+	return &snowflake{m: uint64(machineId)}
+}
+
+func (this *snowflake) Do(seed interface{}) interface{} {
+	rand.Seed(int64(seed.(uint64)))
+	return Compose(this.m.(uint64))
+}
+
+func (this *snowflake) Undo(input interface{}) (int, int, int) {
+	return Decompose(input.(uint64))
+}
+
+
+/*
+ * flow function
+ */
+func CreateSnowFlow(machineIds chan int) chan concurrent.Work {
+	output := make(chan concurrent.Work)
 	go func() {
-		defer close(out)
-		
+		defer close(output)
 		for {
-			snowflake := this.Compose()
 			select {
-			case <-done:
-				return
-			case out <- snowflake:
+			case id := <-machineIds:
+				output <- CreateSnowFlake(id)
 			}
 		}
 	}()
-	return out
-}
-
-func (this *Worker) Compose() uint64 {
-	t := (uint64(time.Now().UnixNano()) << (bitM + bitS - bitNano2Mil)) & maskT
-	m := (this.m << bitS) & maskM
-	s := rand.Uint64() & maskS
-
-	return uint64(t | m | s)
-}
-
-func (this *Worker) Decompose(snowflake uint64) Worker {
-	return Worker{
-		t: ((snowflake & maskT) >> (bitM + bitS - bitNano2Mil)) / 1e6, // in ms
-		m: (snowflake & maskM) >> bitM,
-		s: snowflake & maskS,
-	}
+	return output
 }

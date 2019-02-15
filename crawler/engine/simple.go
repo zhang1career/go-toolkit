@@ -19,7 +19,7 @@ func (e *SimpleEngine) start(seed ...Request) []interface{} {
 
 func (e *SimpleEngine) Run(seed ...Request) {
 	w := worker{dumps:make(map[string]bool)}
-	b := ttree.BFS{T:ttree.Traverser{Explore:w.explore, Parse:w.parse, Root:w.root, Done:w.done}}
+	b := ttree.NewBFS(w.explore, w.parse, w.root, w.done)
 	
 	var out []interface{}
 	_, err := b.Traverse(e.start(seed...), &out)

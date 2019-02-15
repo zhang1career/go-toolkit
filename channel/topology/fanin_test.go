@@ -1,4 +1,4 @@
-package mux_test
+package topology_test
 
 import (
 	"github.com/zhang1career/lib/channel/manager"
@@ -14,7 +14,7 @@ func TestFanin(t *testing.T) {
 	in2 := source.VariadicSource("a", "b", "c", "d", "e", "f", "g")
 	in3 := source.RandSource(6)
 	
-	out, err := mux.Fanin(m, in1, in2, in3)
+	out, err := topology.Fanin(m, in1, in2, in3)
 	if err != nil {
 		t.Log(err.Error())
 		return
