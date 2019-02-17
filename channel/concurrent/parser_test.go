@@ -8,7 +8,7 @@ import (
 
 func TestParser(t *testing.T) {
 	machineIds := make(chan int)
-	snows := source.CreateSnowFlow(machineIds)
+	snows := source.CreateSnowFlakeQueue(machineIds)
 	salt := make(chan interface{})
 	
 	p := concurrent.CreateParser()

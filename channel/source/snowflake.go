@@ -69,9 +69,9 @@ func (this *snowflake) Undo(input interface{}) (int, int, int) {
 
 
 /*
- * flow function
+ * queue function
  */
-func CreateSnowFlow(machineIds chan int) chan concurrent.Work {
+func CreateSnowFlakeQueue(machineIds chan int) chan concurrent.Work {
 	output := make(chan concurrent.Work)
 	go func() {
 		defer close(output)
