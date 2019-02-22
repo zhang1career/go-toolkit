@@ -5,6 +5,7 @@ const (
 	lvInfo
 	lvWarn
 	lvError
+	lvFatal
 )
 
 var LvMsg = map[int]string {
@@ -12,4 +13,5 @@ var LvMsg = map[int]string {
 	lvInfo  : "[INFO]",
 	lvWarn  : "[WARN]",
 	lvError : "[ERROR]",
+	lvFatal : "[FATAL]",
 }

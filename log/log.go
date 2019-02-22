@@ -36,6 +36,13 @@ func Error(message string, args ...interface{}) {
 	after(lvError)
 }
 
+func Fatal(message string, args ...interface{}) {
+	msg := check(message, args...)
+	before(lvFatal)
+	fmt.Printf("%s\n", msg)
+	after(lvFatal)
+}
+
 func Panic(message string, args ...interface{}) {
 	where := here(4)
 	msg := check(message, args...)

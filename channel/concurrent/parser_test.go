@@ -2,13 +2,13 @@ package concurrent_test
 
 import (
 	"github.com/zhang1career/lib/channel/concurrent"
-	"github.com/zhang1career/lib/channel/source"
+	"github.com/zhang1career/lib/channel/source/snowflake"
 	"testing"
 )
 
 func TestParser(t *testing.T) {
 	machineIds := make(chan int)
-	snows := source.CreateSnowFlakeQueue(machineIds)
+	snows := snowflake.CreateSnowFlakeQueue(machineIds)
 	salt := make(chan interface{})
 	
 	p := concurrent.CreateParser()
@@ -23,7 +23,7 @@ func TestParser(t *testing.T) {
 			return
 		}
 		
-		time, machine, serial := source.Decompose(v.(uint64))
+		time, machine, serial := snowflake.SnowMelt(v.(uint64))
 		t.Logf("%v, %03x, %03x", time, machine, serial)
 		
 		salt <- v
