@@ -18,7 +18,7 @@ func CreateParser() *Parser {
 	}
 }
 
-func (this *Parser) AddWorker(num int, wids chan int, works chan Work) {
+func (this *Parser) AddWorker(num int, works <-chan Work, workerIds chan<- int) {
 	if num <= 0 {
 		return
 	}
@@ -27,7 +27,7 @@ func (this *Parser) AddWorker(num int, wids chan int, works chan Work) {
 		ctrl := ctrlbus.CreateCtrlbus()
 		this.manager = append(this.manager, ctrl)
 		
-		wids <- i
+		workerIds <- i
 		work := <-works
 		worker := createWorker(i, work)
 		worker.run(ctrl, this.seekers, this.Output)

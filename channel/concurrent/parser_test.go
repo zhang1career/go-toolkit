@@ -12,7 +12,7 @@ func TestParser(t *testing.T) {
 	salt := make(chan interface{})
 	
 	p := concurrent.CreateParser()
-	p.AddWorker(3, machineIds, snows)
+	p.AddWorker(3, snows, machineIds)
 	p.Run(salt)
 	
 	salt <- uint64(0)
