@@ -42,53 +42,83 @@ func (this *PokerGame) HasPair(cards []cardgame.KV, count int) (int, []cardgame.
 	return len(ret), ret
 }
 
-func (this *PokerGame) HasStraight(cards []cardgame.KV, length int) (bool, int) {
-	cards = prependHighAce(cards)
+func (this *PokerGame) HasStraight(cards []cardgame.Card, length int) (bool, [][]cardgame.Card) {
+	cards = appendHighAce(cards)
+	cards = this.SortByValue(cards, "desc")
+	// pooling
+	poolStraights := make([][][]cardgame.Card, 0)
+	maybeStraight := [][]cardgame.Card{{cards[0]}}
 	
-	straight_num := 0
-	start_value  := 0
-	
-	for _, kv := range cards {
-		// params check
-		if kv.Value <= 0 {
-			straight_num = 0
-			start_value  = 0
+	for i := 1; i < len(cards); i++ {
+		card := cards[i]
+		// add to last maybe
+		j := len(maybeStraight)
+		if cards[i-1].Value == card.Value {
+			maybeStraight[j-1] = append(maybeStraight[j-1], card)
 			continue
 		}
-		// reset when meet a number gap
-		if start_value != kv.Key + 1 {
-			straight_num = 0
+		// add to pool when meet straight length
+		if len(maybeStraight) >= length {
+			tmpStraight := make([][]cardgame.Card, len(maybeStraight))
+			copy(tmpStraight, maybeStraight)
+			poolStraights = append(poolStraights, tmpStraight)
+			maybeStraight = maybeStraight[1:]
 		}
-		straight_num++
-		start_value = kv.Key
-		// return when meet straight length
-		if (straight_num >= length) {
-			break
+		// reset when meet a value gap
+		if cards[i-1].Value > card.Value + 1 {
+			maybeStraight = [][]cardgame.Card{{card}}
+			continue
+		}
+		// grow maybe
+		maybeStraight = append(maybeStraight, []cardgame.Card{card})
+	}
+	// last check
+	if len(maybeStraight) >= length {
+		tmpStraight := make([][]cardgame.Card, len(maybeStraight))
+		copy(tmpStraight, maybeStraight)
+		poolStraights = append(poolStraights, tmpStraight)
+	}
+	// permutate the result
+	ret := make([][]cardgame.Card, 0)
+	for _, poolStraight := range poolStraights {
+		ret = append(ret, permutate(poolStraight)...)
+	}
+	return len(ret) > 0, ret
+}
+
+func appendHighAce(cards []cardgame.Card) []cardgame.Card {
+	// do not append twice
+	for _, card := range cards {
+		if card.Value >= 14 {
+			return cards
 		}
 	}
 	
-	return (straight_num >= length), start_value
+	highAces := make([]cardgame.Card, 0)
+	for _, card := range cards {
+		if card.Value != 1 {
+			continue
+		}
+		highAces = append(highAces, cardgame.Card{Value: 14, Suit: card.Suit})
+	}
+	return append(cards, highAces...)
 }
 
-func prependHighAce(cards []cardgame.KV) []cardgame.KV {
-	// do not prepend twice
-	if cards[0].Key >= 14 {
+func permutate(cards [][]cardgame.Card) [][]cardgame.Card {
+	length := len(cards)
+	if length == 1 {
 		return cards
 	}
 	
-	lowAce := cards[len(cards)-1]
-	// there is no ace
-	if lowAce.Key != 1 {
-		return cards
+	ret := make([][]cardgame.Card, 0)
+	for _, straight := range permutate(cards[0:length-1]) {
+		for _, head := range cards[length-1] {
+			ret = append(ret, append(straight, head))
+		}
 	}
 	
-	highAce := cardgame.KV{
-		Key:    14,
-		Value:  lowAce.Value,
-	}
-	return append([]cardgame.KV{highAce}, cards...)
+	return ret
 }
-
 
 func (this *PokerGame) HasSuit(cards []cardgame.Card, count int) (int, []int) {
 	ret := make([]int, 0)

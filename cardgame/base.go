@@ -19,7 +19,7 @@ func New() (*Game, error) {
 	return &Game{}, nil
 }
 
-func (this *Game) SortByValue(cards []Card, sort_type string) ([]Card, error) {
+func (this *Game) SortByValue(cards []Card, sort_type string) []Card {
 	if sort_type == "asc" {
 		sort.Slice(cards, func(i, j int) bool {
 			return cards[i].Value < cards[j].Value
@@ -29,10 +29,10 @@ func (this *Game) SortByValue(cards []Card, sort_type string) ([]Card, error) {
 			return cards[i].Value > cards[j].Value
 		})
 	}
-	return cards, nil
+	return cards
 }
 
-func (this *Game) SortBySuit(cards []Card, sort_type string) ([]Card, error) {
+func (this *Game) SortBySuit(cards []Card, sort_type string) []Card {
 	if sort_type == "asc" {
 		sort.Slice(cards, func(i, j int) bool {
 			return cards[i].Suit < cards[j].Suit
@@ -42,7 +42,7 @@ func (this *Game) SortBySuit(cards []Card, sort_type string) ([]Card, error) {
 			return cards[i].Suit > cards[j].Suit
 		})
 	}
-	return cards, nil
+	return cards
 }
 
 
@@ -105,10 +105,10 @@ type KV struct {
 }
 
 
-func (this *Game) Show(cards []Card) ([]string, error) {
+func (this *Game) Show(cards []Card) []string {
 	ret := make([]string, len(cards))
 	for i, card := range cards {
 		ret[i] = strconv.Itoa(card.Value) + this.SuitMap[card.Suit]
 	}
-	return ret, nil
+	return ret
 }

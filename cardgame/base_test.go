@@ -19,17 +19,11 @@ func TestSortByValue(t *testing.T) {
 	if err != nil {
 		t.Error(err.Error())
 	}
-	values, err := game.SortByValue(cards, "asc")
-	if err != nil {
-		t.Error(err.Error())
-	}
-	t.Log(game.Show(values))
+	values := game.SortByValue(cards, "asc")
+	t.Log(values)
 	
-	values, err = game.SortByValue(cards, "desc")
-	if err != nil {
-		t.Error(err.Error())
-	}
-	t.Log(game.Show(values))
+	values = game.SortByValue(cards, "desc")
+	t.Log(values)
 }
 
 func TestSortBySuit(t *testing.T) {
@@ -37,16 +31,10 @@ func TestSortBySuit(t *testing.T) {
 	if err != nil {
 		t.Error(err.Error())
 	}
-	values, err := game.SortBySuit(cards, "asc")
-	if err != nil {
-		t.Error(err.Error())
-	}
+	values := game.SortBySuit(cards, "asc")
 	t.Log(game.Show(values))
 	
-	values, err = game.SortBySuit(cards, "desc")
-	if err != nil {
-		t.Error(err.Error())
-	}
+	values = game.SortBySuit(cards, "desc")
 	t.Log(game.Show(values))
 }
 

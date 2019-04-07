@@ -132,7 +132,24 @@ func HasFourOfAKind(cards []cardgame.Card) (bool, int) {
 	return true, pairs[0].Key
 }
 
-// straight flush
+// @todo HasStraight return cards
+func HasStraightFlush(cards []cardgame.Card) (bool, []int) {
+	ret := make([]int, 0)
+	
+	hasStraight, startValue := HasStraight(cards)
+	if hasStraight == false {
+		return false, ret
+	}
+	ret = append(ret, startValue)
+	
+	hasFlush, suit := HasFlush(cards)
+	if hasFlush == false {
+		return false, ret
+	}
+	ret = append(ret, suit)
+	
+	return true, ret
+}
 
 // royal straight flush
 
