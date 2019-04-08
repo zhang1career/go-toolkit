@@ -83,8 +83,8 @@ func TestPokerGame_HasSuit(t *testing.T) {
 		t.Error(err.Error())
 	}
 	
-	num, suit := game.HasSuit(cards, 5)
-	t.Log(num)
+	hasSuit, suit := game.HasSuit(cards, 5)
+	t.Log(hasSuit)
 	t.Log(suit)
 }
 

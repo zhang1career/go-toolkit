@@ -69,14 +69,13 @@ func HasThreeOfAKind(cards []cardgame.Card) (bool, int) {
 	return true, pairs[0].Key
 }
 
-func HasStraight(cards []cardgame.Card) (bool, int) {
+func HasStraight(cards []cardgame.Card) (bool, [][]cardgame.Card) {
 	game, err := poker.New()
 	if err != nil {
 		log.Error(err.Error())
 	}
-	kvs := game.GroupByValue(cards).Sort("desc")
 	
-	return game.HasStraight(kvs, 5)
+	return game.HasStraight(cards, 5)
 }
 
 func HasFlush(cards []cardgame.Card) (bool, int) {
@@ -85,8 +84,8 @@ func HasFlush(cards []cardgame.Card) (bool, int) {
 		log.Error(err.Error())
 	}
 	
-	num, suits := game.HasSuit(cards, 5)
-	if num <= 0 {
+	hasSuit, suits := game.HasSuit(cards, 5)
+	if !hasSuit {
 		return false, 0
 	}
 	
@@ -132,24 +131,38 @@ func HasFourOfAKind(cards []cardgame.Card) (bool, int) {
 	return true, pairs[0].Key
 }
 
-// @todo HasStraight return cards
-func HasStraightFlush(cards []cardgame.Card) (bool, []int) {
-	ret := make([]int, 0)
-	
-	hasStraight, startValue := HasStraight(cards)
-	if hasStraight == false {
-		return false, ret
+func HasStraightFlush(cards []cardgame.Card) (bool, []cardgame.Card) {
+	hasStraight, straights := HasStraight(cards)
+	if !hasStraight {
+		return false, nil
 	}
-	ret = append(ret, startValue)
 	
-	hasFlush, suit := HasFlush(cards)
-	if hasFlush == false {
-		return false, ret
+	retStraight := make([]cardgame.Card, 0)
+	for _, straight := range straights {
+		hasFlush, _ := HasFlush(straight)
+		if hasFlush {
+			retStraight = append(retStraight, straight...)
+			break
+		}
 	}
-	ret = append(ret, suit)
 	
-	return true, ret
+	return len(retStraight) > 0, retStraight
 }
 
-// royal straight flush
-
+func HasRoyalStraightFlush(cards []cardgame.Card) (bool, []cardgame.Card) {
+	hasStraight, straight := HasStraightFlush(cards)
+	if !hasStraight {
+		return false, nil
+	}
+	
+	game, err := poker.New()
+	if err != nil {
+		log.Error(err.Error())
+	}
+	straight = game.SortByValue(straight, "asc")
+	if straight[0].Value != 10 {
+		return false, nil
+	}
+	
+	return true, straight
+}

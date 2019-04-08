@@ -19,6 +19,22 @@ type PokerGame struct {
 func New() (*PokerGame, error) {
 	game := PokerGame{
 		cardgame.Game{
+			ValueMap: map[int]string{
+				1:      "A",
+				2:      "2",
+				3:      "3",
+				4:      "4",
+				5:      "5",
+				6:      "6",
+				7:      "7",
+				8:      "8",
+				9:      "9",
+				10:     "10",
+				11:     "J",
+				12:     "Q",
+				13:     "K",
+				14:     "A",
+			},
 			SuitMap: map[int]string{
 				Spade:   "♠",
 				Heart:   "♥",
@@ -130,7 +146,7 @@ func Permutate(cards [][]cardgame.Card) [][]cardgame.Card {
 	return ret
 }
 
-func (this *PokerGame) HasSuit(cards []cardgame.Card, count int) (int, []int) {
+func (this *PokerGame) HasSuit(cards []cardgame.Card, count int) (bool, []int) {
 	ret := make([]int, 0)
 	
 	kvs := this.GroupBySuit(cards)
@@ -140,5 +156,5 @@ func (this *PokerGame) HasSuit(cards []cardgame.Card, count int) (int, []int) {
 		}
 		ret = append(ret, k)
 	}
-	return len(ret), ret
+	return len(ret) > 0, ret
 }

@@ -3,7 +3,6 @@ package cardgame
 import (
 	"fmt"
 	"sort"
-	"strconv"
 )
 
 type Card struct {
@@ -12,6 +11,7 @@ type Card struct {
 }
 
 type Game struct {
+	ValueMap    map[int]string
 	SuitMap     map[int]string
 }
 
@@ -108,7 +108,7 @@ type KV struct {
 func (this *Game) Show(cards []Card) []string {
 	ret := make([]string, len(cards))
 	for i, card := range cards {
-		ret[i] = strconv.Itoa(card.Value) + this.SuitMap[card.Suit]
+		ret[i] = this.ValueMap[card.Value] + this.SuitMap[card.Suit]
 	}
 	return ret
 }
