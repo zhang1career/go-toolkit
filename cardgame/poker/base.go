@@ -1,6 +1,7 @@
 package poker
 
 import (
+	"fmt"
 	"github.com/zhang1career/lib/cardgame"
 )
 
@@ -81,7 +82,9 @@ func (this *PokerGame) HasStraight(cards []cardgame.Card, length int) (bool, [][
 	// permutate the result
 	ret := make([][]cardgame.Card, 0)
 	for _, poolStraight := range poolStraights {
-		ret = append(ret, permutate(poolStraight)...)
+		fmt.Println(poolStraight)
+		s := Permutate(poolStraight)
+		ret = append(ret, s...)
 	}
 	return len(ret) > 0, ret
 }
@@ -104,16 +107,23 @@ func appendHighAce(cards []cardgame.Card) []cardgame.Card {
 	return append(cards, highAces...)
 }
 
-func permutate(cards [][]cardgame.Card) [][]cardgame.Card {
+func Permutate(cards [][]cardgame.Card) [][]cardgame.Card {
+	ret := make([][]cardgame.Card, 0)
+	
 	length := len(cards)
-	if length == 1 {
-		return cards
+	if length <= 1 {
+		for _, card := range cards[length-1] {
+			ret = append(ret, []cardgame.Card{card})
+		}
+		return ret
 	}
 	
-	ret := make([][]cardgame.Card, 0)
-	for _, straight := range permutate(cards[0:length-1]) {
+	for _, straight := range Permutate(cards[0:length-1]) {
 		for _, head := range cards[length-1] {
-			ret = append(ret, append(straight, head))
+			tmpStraight := make([]cardgame.Card, len(straight))
+			copy(tmpStraight, straight)
+			tmpStraight = append(tmpStraight, head)
+			ret = append(ret, tmpStraight)
 		}
 	}
 	

@@ -87,3 +87,28 @@ func TestPokerGame_HasSuit(t *testing.T) {
 	t.Log(num)
 	t.Log(suit)
 }
+
+func TestPermutate(t *testing.T) {
+	var card5 = []cardgame.Card{
+		{Value: 5, Suit: poker.Diamond},
+	}
+	var card4 = []cardgame.Card{
+		{Value: 4, Suit: poker.Diamond},
+	}
+	var card3 = []cardgame.Card{
+		{Value: 3, Suit: poker.Diamond},
+		{Value: 3, Suit: poker.Club},
+	}
+	var card2 = []cardgame.Card{
+		{Value: 2, Suit: poker.Diamond},
+		{Value: 2, Suit: poker.Club},
+	}
+	//var card1 = []cardgame.Card{
+	//	{Value: 1, Suit: poker.Heart},
+	//	{Value: 1, Suit: poker.Spade},
+	//}
+	var cards = [][]cardgame.Card{card5, card4, card3, card2}
+	t.Log(cards)
+	ret := poker.Permutate(cards)
+	t.Log(ret)
+}
