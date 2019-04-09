@@ -24,7 +24,7 @@ var cards = []cardgame.Card{
 	{Value: 13, Suit: poker.Club},
 }
 
-func TestPokerGame_SortByValue(t *testing.T) {
+func TestPoker_SortByValue(t *testing.T) {
 	game, err := poker.New()
 	if err != nil {
 		t.Error(err.Error())
@@ -37,7 +37,7 @@ func TestPokerGame_SortByValue(t *testing.T) {
 	t.Log(game.Show(values))
 }
 
-func TestPokerGame_SortBySuit(t *testing.T) {
+func TestPoker_SortBySuit(t *testing.T) {
 	game, err := poker.New()
 	if err != nil {
 		t.Error(err.Error())
@@ -50,34 +50,31 @@ func TestPokerGame_SortBySuit(t *testing.T) {
 	t.Log(game.Show(values))
 }
 
-func TestPokerGame_HasPair(t *testing.T) {
+func TestPoker_HasPair(t *testing.T) {
 	game, err := poker.New()
 	if err != nil {
 		t.Error(err.Error())
 	}
 	
-	kvs := game.GroupByValue(cards).Sort("desc")
-	t.Log(kvs)
-	
-	hasPair, pairs := game.HasPair(kvs, 2)
+	hasPair, pairs := game.HasPair(cards, 2)
 	t.Log(hasPair)
 	t.Log(pairs)
 }
 
-func TestPokerGame_HasStraight(t *testing.T) {
+func TestPoker_HasSerial(t *testing.T) {
 	game, err := poker.New()
 	if err != nil {
 		t.Error(err.Error())
 	}
 	
-	hasStraight, straights := game.HasStraight(cards, 5)
+	hasStraight, straights := game.HasSerial(cards, 5)
 	t.Log(hasStraight)
 	for _, straight := range straights {
 		t.Log(game.Show(straight))
 	}
 }
 
-func TestPokerGame_HasSuit(t *testing.T) {
+func TestPoker_HasSuit(t *testing.T) {
 	game, err := poker.New()
 	if err != nil {
 		t.Error(err.Error())
@@ -86,29 +83,4 @@ func TestPokerGame_HasSuit(t *testing.T) {
 	hasSuit, suit := game.HasSuit(cards, 5)
 	t.Log(hasSuit)
 	t.Log(suit)
-}
-
-func TestPermutate(t *testing.T) {
-	var card5 = []cardgame.Card{
-		{Value: 5, Suit: poker.Diamond},
-	}
-	var card4 = []cardgame.Card{
-		{Value: 4, Suit: poker.Diamond},
-	}
-	var card3 = []cardgame.Card{
-		{Value: 3, Suit: poker.Diamond},
-		{Value: 3, Suit: poker.Club},
-	}
-	var card2 = []cardgame.Card{
-		{Value: 2, Suit: poker.Diamond},
-		{Value: 2, Suit: poker.Club},
-	}
-	//var card1 = []cardgame.Card{
-	//	{Value: 1, Suit: poker.Heart},
-	//	{Value: 1, Suit: poker.Spade},
-	//}
-	var cards = [][]cardgame.Card{card5, card4, card3, card2}
-	t.Log(cards)
-	ret := poker.Permutate(cards)
-	t.Log(ret)
 }

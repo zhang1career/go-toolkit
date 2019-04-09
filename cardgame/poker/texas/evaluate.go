@@ -21,125 +21,77 @@ import (
 
 // high card
 
-func HasOnePair(cards []cardgame.Card) (bool, int) {
-	game, err := poker.New()
-	if err != nil {
-		log.Error(err.Error())
+func (this *Texas) HasOnePair(cards []cardgame.Card) (bool, []cardgame.Card) {
+	hasPair, pairs := this.HasPair(cards, 2)
+	if !hasPair {
+		return false, nil
 	}
-	kvs := game.GroupByValue(cards).Sort("desc")
-	
-	num, pairs := game.HasPair(kvs, 2)
-	if num <= 0 {
-		return false, 0
-	}
-	
-	return true, pairs[0].Key
+	return true, pairs[0]
 }
 
-func HasTwoPair(cards []cardgame.Card) (bool, []int) {
-	game, err := poker.New()
-	if err != nil {
-		log.Error(err.Error())
+func (this *Texas) HasTwoPair(cards []cardgame.Card) (bool, [][]cardgame.Card) {
+	hasPair, pair0 := this.HasOnePair(cards)
+	if !hasPair {
+		return false, nil
 	}
-	kvs := game.GroupByValue(cards).Sort("desc")
-	
-	ret := make([]int, 0)
-	
-	num, pairs := game.HasPair(kvs, 2)
-	if num <= 1 {
-		return false, ret
+	cards = this.DelCards(cards, pair0)
+	hasPair, pair1 := this.HasOnePair(cards)
+	if !hasPair {
+		return false, nil
 	}
-	ret = append(ret, pairs[0].Key, pairs[1].Key)
-	
-	return true, ret
+	return true, [][]cardgame.Card{pair0, pair1}
 }
 
-func HasThreeOfAKind(cards []cardgame.Card) (bool, int) {
-	game, err := poker.New()
-	if err != nil {
-		log.Error(err.Error())
+func (this *Texas) HasThreeOfAKind(cards []cardgame.Card) (bool, []cardgame.Card) {
+	hasPair, pairs := this.HasPair(cards, 3)
+	if !hasPair {
+		return false, nil
 	}
-	kvs := game.GroupByValue(cards).Sort("desc")
-	
-	num, pairs := game.HasPair(kvs, 3)
-	if num <= 0 {
-		return false, 0
-	}
-	
-	return true, pairs[0].Key
+	return true, pairs[0]
 }
 
-func HasStraight(cards []cardgame.Card) (bool, [][]cardgame.Card) {
-	game, err := poker.New()
-	if err != nil {
-		log.Error(err.Error())
-	}
-	
-	return game.HasStraight(cards, 5)
+func (this *Texas) HasStraight(cards []cardgame.Card) (bool, [][]cardgame.Card) {
+	return this.HasSerial(cards, 5)
 }
 
-func HasFlush(cards []cardgame.Card) (bool, int) {
-	game, err := poker.New()
-	if err != nil {
-		log.Error(err.Error())
-	}
-	
-	hasSuit, suits := game.HasSuit(cards, 5)
+func (this *Texas) HasFlush(cards []cardgame.Card) (bool, int) {
+	hasSuit, suits := this.HasSuit(cards, 5)
 	if !hasSuit {
 		return false, 0
 	}
-	
 	return true, suits[0]
 }
 
-func HasFullHouse(cards []cardgame.Card) (bool, []int) {
-	game, err := poker.New()
-	if err != nil {
-		log.Error(err.Error())
+func (this *Texas) HasFullHouse(cards []cardgame.Card) (bool, [][]cardgame.Card) {
+	hasPair, pair3 := this.HasThreeOfAKind(cards)
+	if !hasPair {
+		return false, nil
 	}
-	kvs := game.GroupByValue(cards).Sort("desc")
-	
-	ret := make([]int, 0)
-	
-	threeNum, threePairs := game.HasPair(kvs, 3)
-	if threeNum <= 0 {
-		return false, ret
+	cards = this.DelCards(cards, pair3)
+	hasPair, pair2 := this.HasOnePair(cards)
+	if !hasPair {
+		return false, nil
 	}
-	ret = append(ret, threePairs[0].Key)
-	
-	twoNum, twoPairs := game.HasPair(kvs, 2)
-	if twoNum <= 0 {
-		return false, ret
-	}
-	ret = append(ret, twoPairs[0].Key)
-	
-	return true, ret
+	return true, [][]cardgame.Card{pair3, pair2}
 }
 
-func HasFourOfAKind(cards []cardgame.Card) (bool, int) {
-	game, err := poker.New()
-	if err != nil {
-		log.Error(err.Error())
+func (this *Texas) HasFourOfAKind(cards []cardgame.Card) (bool, []cardgame.Card) {
+	hasPair, pairs := this.HasPair(cards, 4)
+	if !hasPair {
+		return false, nil
 	}
-	kvs := game.GroupByValue(cards).Sort("desc")
-	
-	num, pairs := game.HasPair(kvs, 4)
-	if num <= 0 {
-		return false, 0
-	}
-	
-	return true, pairs[0].Key
+	return true, pairs[0]
 }
 
-func HasStraightFlush(cards []cardgame.Card) (bool, []cardgame.Card) {
-	hasStraight, straights := HasStraight(cards)
+func (this *Texas) HasStraightFlush(cards []cardgame.Card) (bool, []cardgame.Card) {
+	hasStraight, straights := this.HasStraight(cards)
 	if !hasStraight {
 		return false, nil
 	}
 	
 	retStraight := make([]cardgame.Card, 0)
 	for _, straight := range straights {
-		hasFlush, _ := HasFlush(straight)
+		hasFlush, _ := this.HasFlush(straight)
 		if hasFlush {
 			retStraight = append(retStraight, straight...)
 			break
@@ -149,8 +101,8 @@ func HasStraightFlush(cards []cardgame.Card) (bool, []cardgame.Card) {
 	return len(retStraight) > 0, retStraight
 }
 
-func HasRoyalStraightFlush(cards []cardgame.Card) (bool, []cardgame.Card) {
-	hasStraight, straight := HasStraightFlush(cards)
+func (this *Texas) HasRoyalStraightFlush(cards []cardgame.Card) (bool, []cardgame.Card) {
+	hasStraight, straight := this.HasStraightFlush(cards)
 	if !hasStraight {
 		return false, nil
 	}

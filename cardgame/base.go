@@ -19,6 +19,18 @@ func New() (*Game, error) {
 	return &Game{}, nil
 }
 
+func (this *Game) DelCards(subedCards []Card, subingCards []Card) []Card {
+	for j := 0; j < len(subingCards); j++ {
+		for i := 0; i < len(subedCards); i++ {
+			if subedCards[i].Value != subingCards[j].Value || subedCards[i].Suit != subingCards[j].Suit {
+				continue
+			}
+			subedCards = append(subedCards[:i], subedCards[i+1:]...)
+		}
+	}
+	return subedCards
+}
+
 func (this *Game) SortByValue(cards []Card, sort_type string) []Card {
 	if sort_type == "asc" {
 		sort.Slice(cards, func(i, j int) bool {
