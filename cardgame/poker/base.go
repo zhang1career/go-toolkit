@@ -45,8 +45,39 @@ func New() (*Poker, error) {
 	return &game, nil
 }
 
+func (this *Poker) GetMostCards(cards []cardgame.Card, count int) []cardgame.Card {
+	if count <= 0 {
+		return nil
+	}
+	if count >= len(cards) {
+		return cards
+	}
+	cards = this.prepareCards(cards)
+	return cards[0:count]
+}
+
+func (this *Poker) GetLeastCards(cards []cardgame.Card, count int) []cardgame.Card {
+	if count <= 0 {
+		return nil
+	}
+	if count >= len(cards) {
+		return cards
+	}
+	cards = this.prepareCards(cards)
+	return cards[len(cards)-count:]
+}
+
+func (this *Poker) CalcSccore(cards []cardgame.Card, count int) (int, []cardgame.Card) {
+	cards = this.GetMostCards(cards, count)
+	score := 0
+	for _, card := range cards {
+		score += card.Value
+	}
+	return score, cards
+}
+
 func (this *Poker) HasPair(cards []cardgame.Card, count int) (bool, [][]cardgame.Card) {
-	cards = this.SortByValue(cards, "desc")
+	cards = this.prepareCards(cards)
 	// pooling
 	maybePair := [][]cardgame.Card{{cards[0]}}
 	
@@ -76,8 +107,7 @@ func (this *Poker) HasPair(cards []cardgame.Card, count int) (bool, [][]cardgame
 }
 
 func (this *Poker) HasSerial(cards []cardgame.Card, length int) (bool, [][]cardgame.Card) {
-	cards = this.addHighAce(cards)
-	cards = this.SortByValue(cards, "desc")
+	cards = this.prepareCards(cards)
 	// pooling
 	poolStraights := make([][][]cardgame.Card, 0)
 	maybeStraight := [][]cardgame.Card{{cards[0]}}
@@ -117,6 +147,12 @@ func (this *Poker) HasSerial(cards []cardgame.Card, length int) (bool, [][]cardg
 		ret = append(ret, this.permutate(poolStraight)...)
 	}
 	return len(ret) > 0, ret
+}
+
+func (this *Poker) prepareCards(cards []cardgame.Card) []cardgame.Card {
+	cards = this.addHighAce(cards)
+	cards = this.SortByValue(cards, "desc")
+	return cards
 }
 
 func (this *Poker) addHighAce(cards []cardgame.Card) []cardgame.Card {

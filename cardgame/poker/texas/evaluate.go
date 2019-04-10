@@ -6,20 +6,72 @@ import (
 	"github.com/zhang1career/lib/log"
 )
 
-//func Evaluate(own_cards []cardgame.Card, common_cards []cardgame.Card) bool {
-//	game, err := poker.New()
-//	if err != nil {
-//		log.Error(err.Error())
-//	}
-//	cards := append(common_cards, own_cards...)
-//	values := game.GroupByValue(cards).Sort("desc")
-//
-//	has_straight, start_value := game.HasStraight(values, 5)
-//
-//	return has_straight
-//}
+func Evaluate(own_cards []cardgame.Card, common_cards []cardgame.Card) (int, int) {
+	game, err := New()
+	if err != nil {
+		log.Error(err.Error())
+	}
+	originCards := append(common_cards, own_cards...)
+	
+	if has, cards := game.HasRoyalStraightFlush(originCards); has {
+		score, _ := game.CalcSccore(cards, 5)
+		return 9, score
+	}
+	
+	if has, cards := game.HasStraightFlush(originCards); has {
+		score, _ := game.CalcSccore(cards, 5)
+		return 8, score
+	}
+	
+	if has, cards := game.HasFourOfAKind(originCards); has {
+		score, _ := game.CalcSccore(cards, 5)
+		return 7, score
+	}
+	if has, pairs := game.HasFullHouse(originCards); has {
+		cards := make([]cardgame.Card, 0)
+		for _, pair := range pairs {
+			cards = append(cards, pair...)
+		}
+		score, _ := game.CalcSccore(cards, 5)
+		return 6, score
+	}
+	//if has, cards := game.HasFlush(originCards); has {
+	//	score, _ := game.CalcSccore(cards, 5)
+	//	return 5, score
+	//}
+	if has, straights := game.HasStraight(originCards); has {
+		cards := make([]cardgame.Card, 0)
+		for _, straight := range straights {
+			cards = append(cards, straight...)
+		}
+		score, _ := game.CalcSccore(cards, 5)
+		return 4, score
+	}
+	if has, cards := game.HasThreeOfAKind(originCards); has {
+		score, _ := game.CalcSccore(cards, 5)
+		return 3, score
+	}
+	if has, pairs := game.HasTwoPair(originCards); has {
+		cards := make([]cardgame.Card, 0)
+		for _, pair := range pairs {
+			cards = append(cards, pair...)
+		}
+		score, _ := game.CalcSccore(cards, 5)
+		return 2, score
+	}
+	if has, cards := game.HasOnePair(originCards); has {
+		score, _ := game.CalcSccore(cards, 5)
+		return 1, score
+	}
+	score, _ := game.HighCard(originCards)
+	return 0, score
+}
 
 // high card
+func (this *Texas) HighCard(cards []cardgame.Card) (int, []cardgame.Card) {
+	score, cards := this.CalcSccore(cards, 5)
+	return score, cards
+}
 
 func (this *Texas) HasOnePair(cards []cardgame.Card) (bool, []cardgame.Card) {
 	hasPair, pairs := this.HasPair(cards, 2)
