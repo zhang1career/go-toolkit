@@ -16,7 +16,7 @@ func TestEvaluate(t *testing.T) {
 		{Value: 13, Suit: poker.Club},
 	}
 	var card2 = []cardgame.Card{
-		{Value: 14, Suit: poker.Heart},
+		{Value: 2, Suit: poker.Diamond},
 		{Value: 14, Suit: poker.Club},
 	}
 	cate, score := texas.Evaluate(card2, card1)
@@ -39,17 +39,6 @@ var cards = []cardgame.Card{
 	{Value: 12, Suit: poker.Spade},
 	{Value: 13, Suit: poker.Club},
 	{Value: 11, Suit: poker.Heart},
-}
-
-func TestTexas_HighCard(t *testing.T) {
-	game, err := texas.New()
-	if err != nil {
-		t.Error(err.Error())
-	}
-	
-	has, value := game.HighCard(cards)
-	t.Log(has)
-	t.Log(game.Show(value))
 }
 
 func TestTexas_HasOnePair(t *testing.T) {
@@ -119,7 +108,7 @@ func TestTexas_HasFlush(t *testing.T) {
 	
 	has, value := game.HasFlush(cards)
 	t.Log(has)
-	t.Log(value)
+	t.Log(game.Show(value))
 }
 
 func TestTexas_HasStraight(t *testing.T) {

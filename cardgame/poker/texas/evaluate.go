@@ -12,21 +12,22 @@ func Evaluate(own_cards []cardgame.Card, common_cards []cardgame.Card) (int, int
 		log.Error(err.Error())
 	}
 	originCards := append(common_cards, own_cards...)
-	
+	// 皇家同花顺
 	if has, cards := game.HasRoyalStraightFlush(originCards); has {
 		score, _ := game.CalcSccore(cards, 5)
 		return 9, score
 	}
-	
+	// 同花顺
 	if has, cards := game.HasStraightFlush(originCards); has {
 		score, _ := game.CalcSccore(cards, 5)
 		return 8, score
 	}
-	
+	// 四条
 	if has, cards := game.HasFourOfAKind(originCards); has {
 		score, _ := game.CalcSccore(cards, 5)
 		return 7, score
 	}
+	// 葫芦
 	if has, pairs := game.HasFullHouse(originCards); has {
 		cards := make([]cardgame.Card, 0)
 		for _, pair := range pairs {
@@ -35,10 +36,12 @@ func Evaluate(own_cards []cardgame.Card, common_cards []cardgame.Card) (int, int
 		score, _ := game.CalcSccore(cards, 5)
 		return 6, score
 	}
-	//if has, cards := game.HasFlush(originCards); has {
-	//	score, _ := game.CalcSccore(cards, 5)
-	//	return 5, score
-	//}
+	// 同花
+	if has, cards := game.HasFlush(originCards); has {
+		score, _ := game.CalcSccore(cards, 5)
+		return 5, score
+	}
+	// 顺子
 	if has, straights := game.HasStraight(originCards); has {
 		cards := make([]cardgame.Card, 0)
 		for _, straight := range straights {
@@ -47,10 +50,12 @@ func Evaluate(own_cards []cardgame.Card, common_cards []cardgame.Card) (int, int
 		score, _ := game.CalcSccore(cards, 5)
 		return 4, score
 	}
+	// 三条
 	if has, cards := game.HasThreeOfAKind(originCards); has {
 		score, _ := game.CalcSccore(cards, 5)
 		return 3, score
 	}
+	// 两对
 	if has, pairs := game.HasTwoPair(originCards); has {
 		cards := make([]cardgame.Card, 0)
 		for _, pair := range pairs {
@@ -59,18 +64,14 @@ func Evaluate(own_cards []cardgame.Card, common_cards []cardgame.Card) (int, int
 		score, _ := game.CalcSccore(cards, 5)
 		return 2, score
 	}
+	// 对子
 	if has, cards := game.HasOnePair(originCards); has {
 		score, _ := game.CalcSccore(cards, 5)
 		return 1, score
 	}
-	score, _ := game.HighCard(originCards)
+	// 高牌
+	score, _ := game.CalcSccore(originCards, 5)
 	return 0, score
-}
-
-// high card
-func (this *Texas) HighCard(cards []cardgame.Card) (int, []cardgame.Card) {
-	score, cards := this.CalcSccore(cards, 5)
-	return score, cards
 }
 
 func (this *Texas) HasOnePair(cards []cardgame.Card) (bool, []cardgame.Card) {
@@ -106,12 +107,13 @@ func (this *Texas) HasStraight(cards []cardgame.Card) (bool, [][]cardgame.Card) 
 	return this.HasSerial(cards, 5)
 }
 
-func (this *Texas) HasFlush(cards []cardgame.Card) (bool, int) {
+func (this *Texas) HasFlush(cards []cardgame.Card) (bool, []cardgame.Card) {
 	hasSuit, suits := this.HasSuit(cards, 5)
 	if !hasSuit {
-		return false, 0
+		return false, nil
 	}
-	return true, suits[0]
+	ret := this.SortByValue(suits[0], "desc")
+	return true, ret
 }
 
 func (this *Texas) HasFullHouse(cards []cardgame.Card) (bool, [][]cardgame.Card) {

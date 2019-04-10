@@ -32,10 +32,10 @@ func TestSortBySuit(t *testing.T) {
 		t.Error(err.Error())
 	}
 	values := game.SortBySuit(cards, "asc")
-	t.Log(game.Show(values))
+	t.Log(values)
 	
 	values = game.SortBySuit(cards, "desc")
-	t.Log(game.Show(values))
+	t.Log(values)
 }
 
 func TestGroupByValue(t *testing.T) {

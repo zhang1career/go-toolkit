@@ -52,7 +52,7 @@ func (this *Poker) GetMostCards(cards []cardgame.Card, count int) []cardgame.Car
 	if count >= len(cards) {
 		return cards
 	}
-	cards = this.prepareCards(cards)
+	cards = this.prepareValues(cards)
 	return cards[0:count]
 }
 
@@ -63,7 +63,7 @@ func (this *Poker) GetLeastCards(cards []cardgame.Card, count int) []cardgame.Ca
 	if count >= len(cards) {
 		return cards
 	}
-	cards = this.prepareCards(cards)
+	cards = this.prepareValues(cards)
 	return cards[len(cards)-count:]
 }
 
@@ -77,7 +77,7 @@ func (this *Poker) CalcSccore(cards []cardgame.Card, count int) (int, []cardgame
 }
 
 func (this *Poker) HasPair(cards []cardgame.Card, count int) (bool, [][]cardgame.Card) {
-	cards = this.prepareCards(cards)
+	cards = this.prepareValues(cards)
 	// pooling
 	maybePair := [][]cardgame.Card{{cards[0]}}
 	
@@ -107,7 +107,7 @@ func (this *Poker) HasPair(cards []cardgame.Card, count int) (bool, [][]cardgame
 }
 
 func (this *Poker) HasSerial(cards []cardgame.Card, length int) (bool, [][]cardgame.Card) {
-	cards = this.prepareCards(cards)
+	cards = this.prepareValues(cards)
 	// pooling
 	poolStraights := make([][][]cardgame.Card, 0)
 	maybeStraight := [][]cardgame.Card{{cards[0]}}
@@ -149,7 +149,7 @@ func (this *Poker) HasSerial(cards []cardgame.Card, length int) (bool, [][]cardg
 	return len(ret) > 0, ret
 }
 
-func (this *Poker) prepareCards(cards []cardgame.Card) []cardgame.Card {
+func (this *Poker) prepareValues(cards []cardgame.Card) []cardgame.Card {
 	cards = this.addHighAce(cards)
 	cards = this.SortByValue(cards, "desc")
 	return cards
@@ -220,15 +220,32 @@ func (this *Poker) combinate(cards []cardgame.Card, count int) [][]cardgame.Card
 	return ret
 }
 
-func (this *Poker) HasSuit(cards []cardgame.Card, count int) (bool, []int) {
-	ret := make([]int, 0)
+func (this *Poker) HasSuit(cards []cardgame.Card, count int) (bool, [][]cardgame.Card) {
+	cards = this.prepareSuits(cards)
+	// pooling
+	maybeSuit := [][]cardgame.Card{{cards[0]}}
 	
-	kvs := this.GroupBySuit(cards)
-	for k, v := range kvs {
-		if v < count {
+	for i := 1; i < len(cards); i++ {
+		card := cards[i]
+		// add to last maybe
+		if cards[i-1].Suit == card.Suit {
+			maybeSuit[len(maybeSuit)-1] = append(maybeSuit[len(maybeSuit)-1], card)
 			continue
 		}
-		ret = append(ret, k)
+		// delete last maybe when not enough the same suit
+		if len(maybeSuit[len(maybeSuit)-1]) < count {
+			maybeSuit = maybeSuit[0:len(maybeSuit)-1]
+		}
+		maybeSuit = append(maybeSuit, []cardgame.Card{card})
 	}
-	return len(ret) > 0, ret
+	// last check
+	if len(maybeSuit[len(maybeSuit)-1]) < count {
+		maybeSuit = maybeSuit[0:len(maybeSuit)-1]
+	}
+	return len(maybeSuit) > 0, maybeSuit
+}
+
+func (this *Poker) prepareSuits(cards []cardgame.Card) []cardgame.Card {
+	cards = this.SortBySuit(cards, "desc")
+	return cards
 }

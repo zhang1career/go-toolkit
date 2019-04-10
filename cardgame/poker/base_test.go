@@ -80,7 +80,9 @@ func TestPoker_HasSuit(t *testing.T) {
 		t.Error(err.Error())
 	}
 	
-	hasSuit, suit := game.HasSuit(cards, 5)
+	hasSuit, suits := game.HasSuit(cards, 5)
 	t.Log(hasSuit)
-	t.Log(suit)
+	for _, suit := range suits {
+		t.Log(game.Show(suit))
+	}
 }
