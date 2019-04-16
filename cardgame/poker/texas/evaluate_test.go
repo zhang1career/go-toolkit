@@ -7,22 +7,6 @@ import (
 	"testing"
 )
 
-func TestEvaluate(t *testing.T) {
-	var card1 = []cardgame.Card{
-		{Value: 10, Suit: poker.Diamond},
-		{Value: 11, Suit: poker.Diamond},
-		{Value: 12, Suit: poker.Diamond},
-		{Value: 13, Suit: poker.Diamond},
-		{Value: 13, Suit: poker.Club},
-	}
-	var card2 = []cardgame.Card{
-		{Value: 2, Suit: poker.Diamond},
-		{Value: 14, Suit: poker.Club},
-	}
-	cate, score := texas.Evaluate(card2, card1)
-	t.Log(cate, score)
-}
-
 var cards = []cardgame.Card{
 	{Value: 12, Suit: poker.Diamond},
 	{Value: 3, Suit: poker.Heart},

@@ -45,6 +45,24 @@ func New() (*Poker, error) {
 	return &game, nil
 }
 
+func (this *Poker) GetAllCards() []cardgame.Card {
+	return []cardgame.Card {
+		{1,1}, {1,2}, {1,3}, {1,4},
+		{2,1}, {2,2}, {2,3}, {2,4},
+		{3,1}, {3,2}, {3,3}, {3,4},
+		{4,1}, {4,2}, {4,3}, {4,4},
+		{5,1}, {5,2}, {5,3}, {5,4},
+		{6,1}, {6,2}, {6,3}, {6,4},
+		{7,1}, {7,2}, {7,3}, {7,4},
+		{8,1}, {8,2}, {8,3}, {8,4},
+		{9,1}, {9,2}, {9,3}, {9,4},
+		{10,1}, {10,2}, {10,3}, {10,4},
+		{11,1}, {11,2}, {11,3}, {11,4},
+		{12,1}, {12,2}, {12,3}, {12,4},
+		{13,1}, {13,2}, {13,3}, {13,4},
+	}
+}
+
 func (this *Poker) GetMostCards(cards []cardgame.Card, count int) []cardgame.Card {
 	if count <= 0 {
 		return nil
@@ -67,7 +85,7 @@ func (this *Poker) GetLeastCards(cards []cardgame.Card, count int) []cardgame.Ca
 	return cards[len(cards)-count:]
 }
 
-func (this *Poker) CalcSccore(cards []cardgame.Card, count int) (int, []cardgame.Card) {
+func (this *Poker) CalcScore(cards []cardgame.Card, count int) (int, []cardgame.Card) {
 	cards = this.GetMostCards(cards, count)
 	score := 0
 	for _, card := range cards {
@@ -101,7 +119,7 @@ func (this *Poker) HasPair(cards []cardgame.Card, count int) (bool, [][]cardgame
 	// permutate the result
 	ret := make([][]cardgame.Card, 0)
 	for _, pair := range maybePair {
-		ret = append(ret, this.combinate(pair, count)...)
+		ret = append(ret, this.Combinate(pair, count)...)
 	}
 	return len(ret) > 0, ret
 }
@@ -144,7 +162,7 @@ func (this *Poker) HasSerial(cards []cardgame.Card, length int) (bool, [][]cardg
 	// permutate the result
 	ret := make([][]cardgame.Card, 0)
 	for _, poolStraight := range poolStraights {
-		ret = append(ret, this.permutate(poolStraight)...)
+		ret = append(ret, this.Permutate(poolStraight)...)
 	}
 	return len(ret) > 0, ret
 }
@@ -171,53 +189,6 @@ func (this *Poker) addHighAce(cards []cardgame.Card) []cardgame.Card {
 		highAces = append(highAces, cardgame.Card{Value: 14, Suit: card.Suit})
 	}
 	return append(cards, highAces...)
-}
-
-func (this *Poker) permutate(cards [][]cardgame.Card) [][]cardgame.Card {
-	ret := make([][]cardgame.Card, 0)
-	
-	length := len(cards)
-	if length <= 1 {
-		for _, card := range cards[length-1] {
-			ret = append(ret, []cardgame.Card{card})
-		}
-		return ret
-	}
-	
-	for _, straight := range this.permutate(cards[1:]) {
-		for _, head := range cards[0] {
-			tmpStraight := make([]cardgame.Card, len(straight))
-			copy(tmpStraight, straight)
-			tmpStraight = append(tmpStraight, head)
-			ret = append(ret, tmpStraight)
-		}
-	}
-	
-	return ret
-}
-
-func (this *Poker) combinate(cards []cardgame.Card, count int) [][]cardgame.Card {
-	if len(cards) < count || count <= 0 {
-		return nil
-	}
-	
-	ret := make([][]cardgame.Card, 0)
-	if count == 1 {
-		for _, card := range cards {
-			ret = append(ret, []cardgame.Card{card})
-		}
-		return ret
-	}
-	
-	for i := 0; i <= len(cards) - count; i++ {
-		for _, com := range this.combinate(cards[i+1:], count-1) {
-			tmpCom := make([]cardgame.Card, len(com))
-			copy(tmpCom, com)
-			tmpCom = append(tmpCom, cards[i])
-			ret = append(ret, tmpCom)
-		}
-	}
-	return ret
 }
 
 func (this *Poker) HasSuit(cards []cardgame.Card, count int) (bool, [][]cardgame.Card) {

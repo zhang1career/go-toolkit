@@ -2,7 +2,7 @@ package calc
 
 import (
 	"fmt"
-	"github.com/zhang1career/module/gotime/gotime"
+	"github.com/zhang1career/lib/gotime"
 )
 
 type Eval func(params ...int) (result int, err error)
@@ -45,3 +45,6 @@ func Div(params ...int) (result int, err error) {
 	return result, nil
 }
 
+func Normalize(value int, min int, max int) float64 {
+	return float64(value-min) / float64(max-min)
+}

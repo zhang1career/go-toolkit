@@ -1,77 +1,85 @@
 package texas
 
 import (
+	"github.com/zhang1career/lib/calc"
 	"github.com/zhang1career/lib/cardgame"
 	"github.com/zhang1career/lib/cardgame/poker"
 	"github.com/zhang1career/lib/log"
 )
 
-func Evaluate(own_cards []cardgame.Card, common_cards []cardgame.Card) (int, int) {
-	game, err := New()
-	if err != nil {
-		log.Error(err.Error())
-	}
-	originCards := append(common_cards, own_cards...)
+func (this *Texas) Evaluate(originCards []cardgame.Card) (winCate int, winScore float64) {
 	// 皇家同花顺
-	if has, cards := game.HasRoyalStraightFlush(originCards); has {
-		score, _ := game.CalcSccore(cards, 5)
-		return 9, score
+	if has, cards := this.HasRoyalStraightFlush(originCards); has {
+		score, _ := this.CalcScore(cards, 1)
+		return RoyalStraightFlush, calc.Normalize(score, 5, 14)
 	}
 	// 同花顺
-	if has, cards := game.HasStraightFlush(originCards); has {
-		score, _ := game.CalcSccore(cards, 5)
-		return 8, score
+	if has, cards := this.HasStraightFlush(originCards); has {
+		score, _ := this.CalcScore(cards, 1)
+		return StraightFlush, calc.Normalize(score, 5, 14)
 	}
 	// 四条
-	if has, cards := game.HasFourOfAKind(originCards); has {
-		score, _ := game.CalcSccore(cards, 5)
-		return 7, score
+	if has, cards := this.HasFourOfAKind(originCards); has {
+		score, _ := this.CalcScore(cards, 1)
+		return FourOfAKind, calc.Normalize(score, 2, 14)
 	}
 	// 葫芦
-	if has, pairs := game.HasFullHouse(originCards); has {
-		cards := make([]cardgame.Card, 0)
+	if has, pairs := this.HasFullHouse(originCards); has {
+		sum := 0
 		for _, pair := range pairs {
-			cards = append(cards, pair...)
+			sum = sum << 4
+			score, _ := this.CalcScore(pair, 1)
+			sum = sum + score - 1
 		}
-		score, _ := game.CalcSccore(cards, 5)
-		return 6, score
+		return FullHouse, calc.Normalize(sum, 0, 256)
 	}
 	// 同花
-	if has, cards := game.HasFlush(originCards); has {
-		score, _ := game.CalcSccore(cards, 5)
-		return 5, score
+	if has, cards := this.HasFlush(originCards); has {
+		sum := 0
+		for i := 0; i < 5; i++ {
+			sum = sum << 4
+			score, _ := this.CalcScore(cards[i:i+1], 1)
+			sum = sum + score - 1
+		}
+		return Flush, calc.Normalize(sum, 0, 1048576)
 	}
 	// 顺子
-	if has, straights := game.HasStraight(originCards); has {
+	if has, straights := this.HasStraight(originCards); has {
 		cards := make([]cardgame.Card, 0)
 		for _, straight := range straights {
 			cards = append(cards, straight...)
 		}
-		score, _ := game.CalcSccore(cards, 5)
-		return 4, score
+		score, _ := this.CalcScore(cards, 1)
+		return Straight, calc.Normalize(score, 5, 14)
 	}
 	// 三条
-	if has, cards := game.HasThreeOfAKind(originCards); has {
-		score, _ := game.CalcSccore(cards, 5)
-		return 3, score
+	if has, cards := this.HasThreeOfAKind(originCards); has {
+		score, _ := this.CalcScore(cards, 1)
+		return ThreeOfAKind, calc.Normalize(score, 2, 14)
 	}
 	// 两对
-	if has, pairs := game.HasTwoPair(originCards); has {
-		cards := make([]cardgame.Card, 0)
+	if has, pairs := this.HasTwoPair(originCards); has {
+		sum := 0
 		for _, pair := range pairs {
-			cards = append(cards, pair...)
+			sum = sum << 4
+			score, _ := this.CalcScore(pair, 1)
+			sum = sum + score - 1
 		}
-		score, _ := game.CalcSccore(cards, 5)
-		return 2, score
+		return TwoPair, calc.Normalize(sum, 0, 256)
 	}
-	// 对子
-	if has, cards := game.HasOnePair(originCards); has {
-		score, _ := game.CalcSccore(cards, 5)
-		return 1, score
+	// 一对
+	if has, cards := this.HasOnePair(originCards); has {
+		score, _ := this.CalcScore(cards, 1)
+		return OnePair, calc.Normalize(score, 2, 14)
 	}
 	// 高牌
-	score, _ := game.CalcSccore(originCards, 5)
-	return 0, score
+	sum := 0
+	for i := 0; i < 5; i++ {
+		sum = sum << 4
+		score, _ := this.CalcScore(originCards[i:i+1], 1)
+		sum = sum + score - 1
+	}
+	return HighCard, calc.Normalize(sum, 0, 1048576)
 }
 
 func (this *Texas) HasOnePair(cards []cardgame.Card) (bool, []cardgame.Card) {
