@@ -27,3 +27,7 @@ func (this *Game) DelCards(subedCards []Card, subingCards []Card) []Card {
 	}
 	return subedCards
 }
+
+func (this *Game) DealCards(allCards []Card, n int) (dealingCards []Card, leftCards []Card, ) {
+	return allCards[:n], allCards[n:]
+}

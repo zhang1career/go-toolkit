@@ -19,18 +19,18 @@ var allCards = []cardgame.Card{
 	{Value: 9, Suit: 0},
 }
 
-func TestGame_KnuthDurstenfeldShuffle(t *testing.T) {
+func TestGame_Shuffle(t *testing.T) {
 	game, err := cardgame.New()
 	if err != nil {
 		t.Error(err.Error())
 	}
 	
 	t.Log(allCards)
-	shuffledCards := game.KnuthDurstenfeldShuffle(allCards, 0)
+	shuffledCards := game.Shuffle(allCards, 0)
 	t.Log(shuffledCards)
 }
 
-func TestGame_KnuthDurstenfeldShuffle_Distribution(t *testing.T) {
+func TestGame_Shuffle_Distribution(t *testing.T) {
 	game, err := cardgame.New()
 	if err != nil {
 		t.Error(err.Error())
@@ -48,7 +48,7 @@ func TestGame_KnuthDurstenfeldShuffle_Distribution(t *testing.T) {
 			allCards[i] = cardgame.Card{Value:i, Suit:0}
 		}
 		// shuffle
-		shuffledCards := game.KnuthDurstenfeldShuffle(allCards, t)
+		shuffledCards := game.Shuffle(allCards, t)
 		// count
 		for j := 0; j < 10; j++ {
 			card := shuffledCards[j]

@@ -52,3 +52,21 @@ func TestGame_DelCards(t *testing.T) {
 	result := game.DelCards(card1, card2)
 	t.Log(result)
 }
+
+func TestGame_DealCards(t *testing.T) {
+	var card = []cardgame.Card{
+		{Value: 1, Suit: 1},
+		{Value: 1, Suit: 2},
+		{Value: 2, Suit: 3},
+		{Value: 2, Suit: 4},
+	}
+	
+	game, err := cardgame.New()
+	if err != nil {
+		t.Error(err.Error())
+	}
+	
+	result, card := game.DealCards(card, 3)
+	t.Log(result)
+	t.Log(card)
+}

@@ -10,12 +10,12 @@ type Result struct {
 	Tip     string
 }
 
-func GetResult(communityCards []cardgame.Card, holeCards [][]cardgame.Card) []Result {
+func GetResult(communityCards []cardgame.Card, holeCards []cardgame.Card) []Result {
 	game, err := New()
 	if err != nil {
 		log.Error(err.Error())
 	}
-	return game.isWin(communityCards, holeCards)
+	return game.isWin(communityCards, [][]cardgame.Card{holeCards})
 }
 
 
