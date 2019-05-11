@@ -6,6 +6,11 @@ import (
 )
 
 func (this *Poker) HasSuit(cards []cardgame.Card, count int) (bool, [][]cardgame.Card) {
+	// params checkage
+	if count <= 0 {
+		return false, nil
+	}
+	
 	cards = this.prepareSuits(cards)
 	// pooling
 	maybeSuit := [][]cardgame.Card{{cards[0]}}

@@ -20,7 +20,42 @@ func TestPoker_HasSuit(t *testing.T) {
 		t.Error(err.Error())
 	}
 	
-	hasSuit, suits := game.HasSuit(cards, 2)
+	hasSuit, suits := game.HasSuit(cards, 0)
+	t.Log(hasSuit)
+	for _, suit := range suits {
+		t.Log(game.Show(suit))
+	}
+	
+	hasSuit, suits = game.HasSuit(cards, 1)
+	t.Log(hasSuit)
+	for _, suit := range suits {
+		t.Log(game.Show(suit))
+	}
+	
+	hasSuit, suits = game.HasSuit(cards, 2)
+	t.Log(hasSuit)
+	for _, suit := range suits {
+		t.Log(game.Show(suit))
+	}
+	
+	hasSuit, suits = game.HasSuit(cards, 3)
+	t.Log(hasSuit)
+	for _, suit := range suits {
+		t.Log(game.Show(suit))
+	}
+	
+	hasSuit, suits = game.HasSuit(cards, 6)
+	t.Log(hasSuit)
+	for _, suit := range suits {
+		t.Log(game.Show(suit))
+	}
+	hasSuit, suits = game.HasSuit(cards, 7)
+	t.Log(hasSuit)
+	for _, suit := range suits {
+		t.Log(game.Show(suit))
+	}
+	
+	hasSuit, suits = game.HasSuit(cards, 999999999999999999)
 	t.Log(hasSuit)
 	for _, suit := range suits {
 		t.Log(game.Show(suit))

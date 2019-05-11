@@ -10,17 +10,17 @@ import (
 func (this *Texas) Evaluate(originCards []cardgame.Card) (winCate int, winScore float64) {
 	// 皇家同花顺
 	if has, cards := this.HasRoyalStraightFlush(originCards); has {
-		score, _ := this.CalcScore(cards, 1)
+		score, _, _ := this.CalcScore(cards, 1)
 		return RoyalStraightFlush, calc.Normalize(score, 5, 14)
 	}
 	// 同花顺
 	if has, cards := this.HasStraightFlush(originCards); has {
-		score, _ := this.CalcScore(cards, 1)
+		score, _, _ := this.CalcScore(cards, 1)
 		return StraightFlush, calc.Normalize(score, 5, 14)
 	}
 	// 四条
 	if has, cards := this.HasFourOfAKind(originCards); has {
-		score, _ := this.CalcScore(cards, 1)
+		score, _, _ := this.CalcScore(cards, 1)
 		return FourOfAKind, calc.Normalize(score, 2, 14)
 	}
 	// 葫芦
@@ -28,7 +28,7 @@ func (this *Texas) Evaluate(originCards []cardgame.Card) (winCate int, winScore 
 		sum := 0
 		for _, pair := range pairs {
 			sum = sum << 4
-			score, _ := this.CalcScore(pair, 1)
+			score, _, _ := this.CalcScore(pair, 1)
 			sum = sum + score - 1
 		}
 		return FullHouse, calc.Normalize(sum, 0, 256)
@@ -38,7 +38,7 @@ func (this *Texas) Evaluate(originCards []cardgame.Card) (winCate int, winScore 
 		sum := 0
 		for i := 0; i < 5; i++ {
 			sum = sum << 4
-			score, _ := this.CalcScore(cards[i:i+1], 1)
+			score, _, _ := this.CalcScore(cards[i:i+1], 1)
 			sum = sum + score - 1
 		}
 		return Flush, calc.Normalize(sum, 0, 1048576)
@@ -49,12 +49,12 @@ func (this *Texas) Evaluate(originCards []cardgame.Card) (winCate int, winScore 
 		for _, straight := range straights {
 			cards = append(cards, straight...)
 		}
-		score, _ := this.CalcScore(cards, 1)
+		score, _, _ := this.CalcScore(cards, 1)
 		return Straight, calc.Normalize(score, 5, 14)
 	}
 	// 三条
 	if has, cards := this.HasThreeOfAKind(originCards); has {
-		score, _ := this.CalcScore(cards, 1)
+		score, _, _ := this.CalcScore(cards, 1)
 		return ThreeOfAKind, calc.Normalize(score, 2, 14)
 	}
 	// 两对
@@ -62,21 +62,21 @@ func (this *Texas) Evaluate(originCards []cardgame.Card) (winCate int, winScore 
 		sum := 0
 		for _, pair := range pairs {
 			sum = sum << 4
-			score, _ := this.CalcScore(pair, 1)
+			score, _, _ := this.CalcScore(pair, 1)
 			sum = sum + score - 1
 		}
 		return TwoPair, calc.Normalize(sum, 0, 256)
 	}
 	// 一对
 	if has, cards := this.HasOnePair(originCards); has {
-		score, _ := this.CalcScore(cards, 1)
+		score, _, _ := this.CalcScore(cards, 1)
 		return OnePair, calc.Normalize(score, 2, 14)
 	}
 	// 高牌
 	sum := 0
 	for i := 0; i < 5; i++ {
 		sum = sum << 4
-		score, _ := this.CalcScore(originCards[i:i+1], 1)
+		score, _, _ := this.CalcScore(originCards[i:i+1], 1)
 		sum = sum + score - 1
 	}
 	return HighCard, calc.Normalize(sum, 0, 1048576)

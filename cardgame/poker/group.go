@@ -50,8 +50,7 @@ func (this *Poker) HasSerial(cards []cardgame.Card, length int) (bool, [][]cardg
 		}
 		// add to pool when meet straight length
 		if len(maybeStraight) >= length {
-			tmpStraight := make([][]cardgame.Card, len(maybeStraight))
-			copy(tmpStraight, maybeStraight)
+			tmpStraight := maybeStraight
 			poolStraights = append(poolStraights, tmpStraight)
 			maybeStraight = maybeStraight[1:]
 		}
@@ -65,8 +64,7 @@ func (this *Poker) HasSerial(cards []cardgame.Card, length int) (bool, [][]cardg
 	}
 	// last check
 	if len(maybeStraight) >= length {
-		tmpStraight := make([][]cardgame.Card, len(maybeStraight))
-		copy(tmpStraight, maybeStraight)
+		tmpStraight := maybeStraight
 		poolStraights = append(poolStraights, tmpStraight)
 	}
 	// permutate the result
