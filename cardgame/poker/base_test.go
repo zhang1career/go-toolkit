@@ -73,16 +73,3 @@ func TestPoker_HasSerial(t *testing.T) {
 		t.Log(game.Show(straight))
 	}
 }
-
-func TestPoker_HasSuit(t *testing.T) {
-	game, err := poker.New()
-	if err != nil {
-		t.Error(err.Error())
-	}
-	
-	hasSuit, suits := game.HasSuit(cards, 5)
-	t.Log(hasSuit)
-	for _, suit := range suits {
-		t.Log(game.Show(suit))
-	}
-}
