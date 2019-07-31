@@ -6,13 +6,13 @@ import (
 )
 
 func TestNewKeyword(t *testing.T) {
-	k := ast.CreateKeyword(`SELECT(.*)FROM(.*)WHRER(.*)`, nil)
+	k := ast.CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil)
 	t.Log(k)
 }
 
 func TestKeyword_Match(t *testing.T) {
-	k := ast.CreateKeyword(`SELECT(.*)FROM(.*)WHRER(.*)`, nil)
-	sql := []byte("SELECT * FROM rules WHRER Id=2")
+	k := ast.CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil)
+	sql := []byte("SELECT * FROM rules WHERE Id=2")
 	ret := k.Match(sql)
 
 	field := string(ret[0][:])
@@ -24,7 +24,7 @@ func TestKeyword_Match(t *testing.T) {
 }
 
 func TestKeyword_NoMatch(t *testing.T) {
-	k := ast.CreateKeyword(`SELECT(.*)FROM(.*)WHRER(.*)`, nil)
+	k := ast.CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil)
 	sql := []byte("INSERT IN rules Id=2")
 	ret := k.Match(sql)
 
