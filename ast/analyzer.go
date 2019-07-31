@@ -1,20 +1,24 @@
 package ast
 
-import "strings"
+import (
+	"github.com/zhang1career/lib/ast/keyword"
+	"github.com/zhang1career/lib/ast/tree"
+	"strings"
+)
 
-var ks []Keyword
+var ks []keyword.Keyword
 
 func Prepare() {
 	ks = append(
 		ks,
-		CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil),
+		keyword.CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil),
 	)
 }
 
-func Analyze(data []byte) *Node {
+func Analyze(data []byte) *tree.Node {
 	Prepare()
 
-	ret := CreateNode()
+	ret := tree.CreateNode()
 
 	var ms [][]byte
 	var i int
@@ -25,13 +29,11 @@ func Analyze(data []byte) *Node {
 		}
 	}
 	if ms == nil {
-		ret.SetValue(strings.TrimSpace(string(data)))
-		ret.SetTypeLeaf()
+		ret.SetLeaf(strings.TrimSpace(string(data)))
 		return &ret
 	}
 
-	ret.SetValue(ks[i].GetObject())
-	ret.SetTypeBranch()
+	ret.SetBranch(ks[i].GetObject())
 	for _, m := range ms {
 		ret.AppendChild(Analyze(m))
 	}

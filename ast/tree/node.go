@@ -1,4 +1,4 @@
-package ast
+package tree
 
 const (
 	NODE_TYPE_LEAF = iota
@@ -24,30 +24,23 @@ func (n *Node) GetChildren() []*Node {
 	return n.children
 }
 
-func (n *Node) SetChild(i int, child *Node) {
-	n.children[i] = child
-}
-
 func (n *Node) AppendChild(child *Node) {
 	n.children = append(n.children, child)
+}
+
+func (n *Node) SetLeaf(val interface{}) {
+	n.val = val
+	n.typ = NODE_TYPE_LEAF
+}
+
+func (n *Node) SetBranch(val interface{}) {
+	n.val = val
+	n.typ = NODE_TYPE_BRANCH
 }
 
 func (n *Node) GetValue() interface{} {
 	return n.val
 }
-
-func (n *Node) SetValue(val interface{}) {
-	n.val = val
-}
-
-func (n *Node) IsTypeLeaf() bool {
+func (n *Node) IsLeaf() bool {
 	return n.typ == NODE_TYPE_LEAF
-}
-
-func (n *Node) SetTypeLeaf() {
-	n.typ = NODE_TYPE_LEAF
-}
-
-func (n *Node) SetTypeBranch() {
-	n.typ = NODE_TYPE_BRANCH
 }

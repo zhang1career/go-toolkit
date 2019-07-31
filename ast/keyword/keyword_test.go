@@ -1,17 +1,16 @@
-package ast_test
+package keyword_test
 
 import (
-	"github.com/zhang1career/lib/ast"
 	"testing"
 )
 
 func TestNewKeyword(t *testing.T) {
-	k := ast.CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil)
+	k := CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil)
 	t.Log(k)
 }
 
 func TestKeyword_Match(t *testing.T) {
-	k := ast.CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil)
+	k := CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil)
 	sql := []byte("SELECT * FROM rules WHERE Id=2")
 	ret := k.Match(sql)
 
@@ -24,7 +23,7 @@ func TestKeyword_Match(t *testing.T) {
 }
 
 func TestKeyword_NoMatch(t *testing.T) {
-	k := ast.CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil)
+	k := CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil)
 	sql := []byte("INSERT IN rules Id=2")
 	ret := k.Match(sql)
 
