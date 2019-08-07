@@ -6,12 +6,12 @@ import (
 	"strings"
 )
 
-var ks []keyword.Keyword
+var ks []operator.Keyword
 
 func Prepare() {
 	ks = append(
 		ks,
-		keyword.CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil),
+		operator.CreateKeyword(`SELECT(.*)FROM(.*)WHERE(.*)`, nil),
 	)
 }
 

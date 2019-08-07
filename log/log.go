@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/zhang1career/lib/datastruct/bit"
 	"github.com/zhang1career/lib/gotime"
+	"os"
 	"time"
 )
 
@@ -41,6 +42,7 @@ func Fatal(message string, args ...interface{}) {
 	before(lvFatal)
 	fmt.Printf("%s\n", msg)
 	after(lvFatal)
+	os.Exit(1)
 }
 
 func Panic(message string, args ...interface{}) {

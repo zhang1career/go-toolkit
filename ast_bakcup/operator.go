@@ -1,16 +1,13 @@
-package keyword
+package ast
 
 import (
 	"regexp"
 )
 
+
 type Keyword struct {
 	reg   *regexp.Regexp
 	obj   *KeyObject
-}
-
-type KeyObject interface {
-	Evaluate() interface{}
 }
 
 func CreateKeyword(pattern string, obj *KeyObject) Keyword {

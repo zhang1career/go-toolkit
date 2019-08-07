@@ -1,7 +1,8 @@
-package gotime
+package gotime_test
 
 import (
 	"fmt"
+	"github.com/zhang1career/lib/gotime"
 	"testing"
 )
 
@@ -18,13 +19,13 @@ var funcs = map[string]interface{} {
 }
 
 func TestCall(t *testing.T) {
-	_, err := Call(funcs, "foo")
+	_, err := gotime.Call(funcs, "foo")
 	if err != nil {
-		fmt.Println(err.Error())
+		t.Error(err.Error())
 	}
 	
-	_, err = Call(funcs, "bar", 1, 2)
+	_, err = gotime.Call(funcs, "bar", 1, 2, 3)
 	if err != nil {
-		fmt.Println(err.Error())
+		t.Log(err.Error())
 	}
 }

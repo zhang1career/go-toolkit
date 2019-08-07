@@ -3,8 +3,8 @@ package gotime
 import (
 	"fmt"
 	"runtime"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 /**
@@ -14,7 +14,7 @@ func Goid() int {
 	defer func() {
 		err := recover()
 		if err != nil {
-			fmt.Println("panic recover:panic info:%v", err)
+			fmt.Printf("panic recover:panic info:%v", err)
 		}
 	}()
 

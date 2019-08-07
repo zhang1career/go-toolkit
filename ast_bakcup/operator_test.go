@@ -1,4 +1,4 @@
-package keyword_test
+package ast_test
 
 import (
 	"testing"
