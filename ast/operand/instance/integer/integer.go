@@ -10,6 +10,6 @@ func New(val interface{}) ast.Valuable {
 	return &Integer{val.(int)}
 }
 
-func (this *Integer) GetValue() interface{} {
+func (this *Integer) Evaluate() interface{} {
 	return this.value
 }

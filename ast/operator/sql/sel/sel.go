@@ -18,7 +18,7 @@ func New() ast.Calculable {
 	return &Sel{}
 }
 
-func (this *Sel) Calc() interface{} {
+func (this *Sel) Calc(map[string]ast.Valuable) interface{} {
 	url := fmt.Sprintf("/%s/%s?%s", this.source, this.target, this.cond)
 	
 	resp, err := http.Get(url)

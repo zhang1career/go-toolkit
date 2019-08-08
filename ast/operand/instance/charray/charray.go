@@ -12,6 +12,6 @@ func New(val interface{}) ast.Valuable {
 	return &Charray{val.(string)}
 }
 
-func (this *Charray) GetValue() interface{} {
+func (this *Charray) Evaluate() interface{} {
 	return this.value
 }

@@ -1,9 +1,11 @@
 package ast
 
 type Valuable interface {
-	GetValue() interface{}
+	Evaluate() interface{}
 }
 
 type Calculable interface {
-	Calc() interface{}
+	Calc(map[string]Valuable) interface{}
 }
+
+type Item map[string]interface{}

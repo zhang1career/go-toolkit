@@ -1,48 +1,34 @@
 package ins
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 	"github.com/zhang1career/lib/ast"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
 
 type Ins struct {
-}
+	target      ast.Valuable
+	source      ast.Valuable
+	cond        ast.Valuable}
 
 func New() ast.Calculable {
 	return &Ins{}
 }
 
-func (this *Ins) Calc() interface{} {
+func (this *Ins) Calc(map[string]ast.Valuable) interface{} {
 	url := fmt.Sprintf("/%s/%s?%s", this.source, this.cond)
 	
-	message := map[string]interface{}{
-		"hello": "world",
-		"life":  42,
-		"embedded": map[string]string{
-			"yes": "of course!",
-		},
-	}
-	
-	bytesRepresentation, err := json.Marshal(message)
+	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatalln(err)
 	}
 	
-	resp, err := http.Post("https://httpbin.org/post", "application/json", bytes.NewBuffer(bytesRepresentation))
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalln(err)
 	}
 	
-	var result map[string]interface{}
-	
-	err = json.NewDecoder(resp.Body).Decode(&result)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	
-	return result["data"]
+	return string(body)
 }
