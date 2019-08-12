@@ -5,7 +5,7 @@ type Valuable interface {
 }
 
 type Calculable interface {
-	Calc(map[string]Valuable) interface{}
+	Calc([]Valuable) interface{}
 }
 
 type Item map[string]interface{}

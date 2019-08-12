@@ -11,7 +11,7 @@ import (
 
 type Operation struct {
 	operator ast.Calculable
-	operands map[string]ast.Valuable
+	operands []ast.Valuable
 }
 
 func New(param interface{}) ast.Valuable {
@@ -25,20 +25,26 @@ func New(param interface{}) ast.Valuable {
 	}
 	
 	var op ast.Calculable
-	var para map[string]ast.Valuable
 	var err error
+	var para = make([]ast.Valuable, 0)
 	for k, v := range paramMap {
 		op, err = operator.New(k)
 		if err != nil {
 			log.Fatal(err.Error())
 		}
+		
+		if gotime.VarType(v) != reflect.Map {
+			para = append(para, operand.New(v))
+			break
+		}
+		
 		for vk, vv := range v.(ast.Item) {
-			para[vk] = New(vv)
+			para = append(para, New(ast.Item{vk: vv}))
 		}
 		break
 	}
 	
-	return &Operation{op, nil}
+	return &Operation{op, para}
 }
 
 func (this *Operation) Evaluate() interface{} {
