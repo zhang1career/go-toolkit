@@ -15,6 +15,7 @@ type Operation struct {
 }
 
 func New(param interface{}) ast.Valuable {
+	// operand
 	if gotime.VarType(param) != reflect.Map {
 		return operand.New(param)
 	}
@@ -26,25 +27,33 @@ func New(param interface{}) ast.Valuable {
 	
 	var op ast.Calculable
 	var err error
-	var para = make([]ast.Valuable, 0)
+	var paramArray = make([]ast.Valuable, 0)
 	for k, v := range paramMap {
 		op, err = operator.New(k)
 		if err != nil {
 			log.Fatal(err.Error())
 		}
-		
-		if gotime.VarType(v) != reflect.Map {
-			para = append(para, operand.New(v))
+		paramType := gotime.VarType(v)
+		// operation
+		if paramType == reflect.Map {
+			for vk, vv := range v.(ast.Item) {
+				paramArray = append(paramArray, New(ast.Item{vk: vv}))
+			}
 			break
 		}
-		
-		for vk, vv := range v.(ast.Item) {
-			para = append(para, New(ast.Item{vk: vv}))
+
+		// operands
+		if paramType == reflect.Slice {
+			for _, vi := range v.([]interface{}) {
+				paramArray = append(paramArray, operand.New(vi))
+			}
+	    } else {
+			paramArray = append(paramArray, operand.New(v))
 		}
 		break
 	}
-	
-	return &Operation{op, para}
+
+	return &Operation{op, paramArray}
 }
 
 func (this *Operation) Evaluate() interface{} {

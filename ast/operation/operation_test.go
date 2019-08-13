@@ -6,19 +6,35 @@ import (
 	"testing"
 )
 
-func TestSelect(t *testing.T) {
+func TestAdd(t *testing.T) {
 	var data = ast.Item {
-		"select": ast.Item {
-			"target": "rules",
-			"source": "risk",
-			"cond":   "id=2",
+		"+": []interface{} {
+			1,
+			2,
 		},
 	}
 	
 	op   := operation.New(data)
-	test := op.Evaluate()
-	comp := "/risk/rules?id=2"
-	if test != comp {
-		t.Errorf("Evaluation was incorrect, got: %s, want: %s.", test, comp)
+	got  := op.Evaluate()
+	want := 3
+	if got != want {
+		t.Errorf("Evaluation was incorrect, got: %d, want: %d.", got, want)
+	}
+}
+
+func TestSelect(t *testing.T) {
+	var data = ast.Item {
+		"select": ast.Item {
+			"target":   "rules",
+			"from":     "risk",
+			"where":    "id=2",
+		},
+	}
+
+	op   := operation.New(data)
+	got  := op.Evaluate()
+	want := "/risk/rules?id=2"
+	if got != want {
+		t.Errorf("Evaluation was incorrect, got: %s, want: %s.", got, want)
 	}
 }
