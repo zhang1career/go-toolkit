@@ -22,6 +22,22 @@ func TestAdd(t *testing.T) {
 	}
 }
 
+func TestGreatThen(t *testing.T) {
+	var data = ast.Item {
+		">": []interface{} {
+			2,
+			1,
+		},
+	}
+
+	op   := operation.New(data)
+	got  := op.Evaluate()
+	want := true
+	if got != want {
+		t.Errorf("Evaluation was incorrect, got: %t, want: %t.", got, want)
+	}
+}
+
 func TestSelect(t *testing.T) {
 	var data = ast.Item {
 		"select": ast.Item {

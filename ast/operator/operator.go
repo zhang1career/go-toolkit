@@ -3,6 +3,7 @@ package operator
 import (
 	"github.com/zhang1career/lib/ast"
 	"github.com/zhang1career/lib/ast/operator/calc/add"
+	"github.com/zhang1career/lib/ast/operator/comp/gt"
 	"github.com/zhang1career/lib/ast/operator/sql/cond"
 	"github.com/zhang1career/lib/ast/operator/sql/obj"
 	"github.com/zhang1career/lib/ast/operator/sql/sel"
@@ -10,9 +11,11 @@ import (
 )
 
 var OperatorMap = map[string]interface{} {
-	//calc
+	// calc
 	"+":        add.New,
-	//sql
+	// compare
+	">":        gt.New,
+	// sql
 	"select":   sel.New,
 	"target":   obj.New,
 	"from":     obj.New,
