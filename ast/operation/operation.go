@@ -57,5 +57,6 @@ func New(param interface{}) ast.Valuable {
 }
 
 func (this *Operation) Evaluate() interface{} {
+	log.Info("%s.Calc", gotime.WhichObj(this.operator))
 	return this.operator.Calc(this.operands)
 }
