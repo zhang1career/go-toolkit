@@ -3,12 +3,17 @@ package gt
 import "github.com/zhang1career/lib/ast"
 
 type Gt struct {
+	value string
 }
 
 func New() ast.Calculable {
-	return &Gt{}
+	return &Gt{">"}
 }
 
-func (this *Gt) Calc(params []ast.Valuable) interface{} {
+func (this *Gt) Calc(params []ast.Evaluable) interface{} {
 	return params[0].Evaluate().(int) > params[1].Evaluate().(int)
+}
+
+func (this *Gt) GetValue() string {
+	return this.value
 }

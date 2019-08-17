@@ -1,11 +1,15 @@
 package ast
 
-type Valuable interface {
+type Observable interface {
+	GetValue() string
+}
+
+type Evaluable interface {
 	Evaluate() interface{}
 }
 
 type Calculable interface {
-	Calc([]Valuable) interface{}
+	Calc([]Evaluable) interface{}
 }
 
 type Item map[string]interface{}

@@ -1,14 +1,25 @@
 package add
 
-import "github.com/zhang1career/lib/ast"
+import (
+	"github.com/zhang1career/lib/ast"
+)
 
 type Add struct {
+	value string
 }
 
 func New() ast.Calculable {
-	return &Add{}
+	return &Add{"add"}
 }
 
-func (this *Add) Calc(params []ast.Valuable) interface{} {
-	return params[0].Evaluate().(int) + params[1].Evaluate().(int)
+func (this *Add) Calc(params []ast.Evaluable) interface{} {
+	ret := 0
+	for _, param := range params {
+		ret += param.Evaluate().(int)
+	}
+	return ret
+}
+
+func (this *Add) GetValue() string {
+	return this.value
 }

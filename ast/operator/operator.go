@@ -5,8 +5,9 @@ import (
 	"github.com/zhang1career/lib/ast/operator/calc/add"
 	"github.com/zhang1career/lib/ast/operator/comp/gt"
 	"github.com/zhang1career/lib/ast/operator/sql/cond"
-	"github.com/zhang1career/lib/ast/operator/sql/obj"
+	"github.com/zhang1career/lib/ast/operator/sql/from"
 	"github.com/zhang1career/lib/ast/operator/sql/sel"
+	"github.com/zhang1career/lib/ast/operator/sql/target"
 	"github.com/zhang1career/lib/gotime"
 )
 
@@ -17,8 +18,8 @@ var OperatorMap = map[string]interface{} {
 	">":        gt.New,
 	// sql
 	"select":   sel.New,
-	"target":   obj.New,
-	"from":     obj.New,
+	"target":   target.New,
+	"from":     from.New,
 	"where":    cond.New,
 }
 

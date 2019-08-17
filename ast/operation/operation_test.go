@@ -11,12 +11,13 @@ func TestAdd(t *testing.T) {
 		"+": []interface{} {
 			1,
 			2,
+			3,
 		},
 	}
 	
 	op   := operation.New(data)
 	got  := op.Evaluate()
-	want := 3
+	want := 6
 	if got != want {
 		t.Errorf("Evaluation was incorrect, got: %d, want: %d.", got, want)
 	}

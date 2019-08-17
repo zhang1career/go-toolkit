@@ -8,12 +8,18 @@ import (
 	"time"
 )
 
-
 func Debug(message string, args ...interface{}) {
 	msg := check(message, args...)
 	before(lvDebug)
 	fmt.Printf("%s\n", msg)
 	after(lvDebug)
+}
+
+func Trace(message string, args ...interface{}) {
+	msg := check(message, args...)
+	before(lvTrace)
+	fmt.Printf("%s\n", msg)
+	after(lvTrace)
 }
 
 func Info(message string, args ...interface{}) {
@@ -60,17 +66,23 @@ func check(message string, args ...interface{}) (msg string) {
 }
 
 func before(level int) {
-	t := time.Now().Format("2006-01-02 15:04:05")
-	lv := LvMsg[level]
-	fmt.Printf("%s %s ", t, lv)
+	how := LvMsg[level]
 	
-	if level > lvWarn {
-		fmt.Printf("%s\n", here(4))
+	when := ""
+	if level >= lvInfo {
+		when = time.Now().Format("2006-01-02T15:04:05")
 	}
+	
+	where := ""
+	if level >= lvWarn {
+		where = here(4)
+	}
+	
+	fmt.Printf("%s[%s]@%s ", when, how, where)
 }
 
 func after(level int) {
-	if level < lvInfo {
+	if level <= lvDebug {
 		mem()
 	}
 }

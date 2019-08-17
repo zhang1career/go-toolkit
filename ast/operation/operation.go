@@ -11,10 +11,10 @@ import (
 
 type Operation struct {
 	operator ast.Calculable
-	operands []ast.Valuable
+	operands []ast.Evaluable
 }
 
-func New(param interface{}) ast.Valuable {
+func New(param interface{}) ast.Evaluable {
 	// operand
 	if gotime.VarType(param) != reflect.Map {
 		return operand.New(param)
@@ -27,7 +27,7 @@ func New(param interface{}) ast.Valuable {
 	
 	var op ast.Calculable
 	var err error
-	var paramArray = make([]ast.Valuable, 0)
+	var paramArray = make([]ast.Evaluable, 0)
 	for k, v := range paramMap {
 		op, err = operator.New(k)
 		if err != nil {
@@ -57,6 +57,6 @@ func New(param interface{}) ast.Valuable {
 }
 
 func (this *Operation) Evaluate() interface{} {
-	log.Info("%s.Calc", gotime.WhichObj(this.operator))
+	log.Trace("%s.Calc", gotime.WhichObj(this.operator))
 	return this.operator.Calc(this.operands)
 }

@@ -8,7 +8,7 @@ import (
 	"reflect"
 )
 
-func New(param interface{}) ast.Valuable{
+func New(param interface{}) ast.Evaluable{
 	switch gotime.VarType(param) {
 	case reflect.Int:
 		return integer.New(param)

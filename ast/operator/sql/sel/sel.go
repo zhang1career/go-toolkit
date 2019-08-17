@@ -12,7 +12,7 @@ func New() ast.Calculable {
 	return &Sel{}
 }
 
-func (this *Sel) Calc(params []ast.Valuable) interface{} {
+func (this *Sel) Calc(params []ast.Evaluable) interface{} {
 	url := fmt.Sprintf("/%s/%s?%s", params[1].Evaluate(), params[0].Evaluate(), params[2].Evaluate())
 	return url
 	//resp, err := http.Get(url)
