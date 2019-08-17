@@ -1,7 +1,11 @@
 package ast
 
-type Observable interface {
+type Serializable interface {
 	GetValue() string
+}
+
+type Unserializable interface {
+	SetValue(string)
 }
 
 type Evaluable interface {

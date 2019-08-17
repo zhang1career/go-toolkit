@@ -15,7 +15,7 @@ func TestAdd(t *testing.T) {
 		},
 	}
 	
-	op   := operation.New(data)
+	op   := operation.ImportFromMap(data)
 	got  := op.Evaluate()
 	want := 6
 	if got != want {
@@ -23,7 +23,7 @@ func TestAdd(t *testing.T) {
 	}
 }
 
-func TestGreatThen(t *testing.T) {
+func TestGreatThan(t *testing.T) {
 	var data = ast.Item {
 		">": []interface{} {
 			2,
@@ -31,7 +31,7 @@ func TestGreatThen(t *testing.T) {
 		},
 	}
 
-	op   := operation.New(data)
+	op   := operation.ImportFromMap(data)
 	got  := op.Evaluate()
 	want := true
 	if got != want {
@@ -48,7 +48,7 @@ func TestSelect(t *testing.T) {
 		},
 	}
 
-	op   := operation.New(data)
+	op   := operation.ImportFromMap(data)
 	got  := op.Evaluate()
 	want := "/risk/rules?id=2"
 	if got != want {

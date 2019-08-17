@@ -14,7 +14,8 @@ type Operation struct {
 	operands []ast.Evaluable
 }
 
-func New(param interface{}) ast.Evaluable {
+
+func ImportFromMap(param interface{}) ast.Evaluable {
 	// operand
 	if gotime.VarType(param) != reflect.Map {
 		return operand.New(param)
@@ -37,7 +38,7 @@ func New(param interface{}) ast.Evaluable {
 		// operation
 		if paramType == reflect.Map {
 			for vk, vv := range v.(ast.Item) {
-				paramArray = append(paramArray, New(ast.Item{vk: vv}))
+				paramArray = append(paramArray, ImportFromMap(ast.Item{vk: vv}))
 			}
 			break
 		}
@@ -55,6 +56,18 @@ func New(param interface{}) ast.Evaluable {
 
 	return &Operation{op, paramArray}
 }
+
+func (this *Operation) ExportToMap() {
+}
+
+
+func ImportFromString(param string) ast.Evaluable {
+	return nil
+}
+
+func (this *Operation) ExportToString() {
+}
+
 
 func (this *Operation) Evaluate() interface{} {
 	log.Trace("%s.Calc", gotime.WhichObj(this.operator))
