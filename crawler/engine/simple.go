@@ -2,7 +2,7 @@ package engine
 
 import (
 	"fmt"
-	"github.com/zhang1career/lib/datastruct/ttree"
+	"github.com/zhang1career/lib/datastruct/tree/ttree"
 	"github.com/zhang1career/lib/log"
 )
 

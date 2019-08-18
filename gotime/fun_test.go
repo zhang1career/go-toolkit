@@ -10,7 +10,7 @@ func foo() {
 	fmt.Println("foo")
 }
 func bar(a, b, c int) {
-	fmt.Printf("a=%d, b=%d, c=%d", a, b, c)
+	fmt.Printf("a=%d, b=%d, c=%d\n", a, b, c)
 }
 
 var funcs = map[string]interface{} {
@@ -19,12 +19,24 @@ var funcs = map[string]interface{} {
 }
 
 func TestCall(t *testing.T) {
-	_, err := gotime.Call(funcs, "foo")
+	_, err := gotime.Call(foo)
 	if err != nil {
 		t.Error(err.Error())
 	}
 	
-	_, err = gotime.Call(funcs, "bar", 1, 2, 3)
+	_, err = gotime.Call(bar, 1, 2, 3)
+	if err != nil {
+		t.Log(err.Error())
+	}
+}
+
+func TestCallFromMap(t *testing.T) {
+	_, err := gotime.CallFromMap(funcs, "foo")
+	if err != nil {
+		t.Error(err.Error())
+	}
+	
+	_, err = gotime.CallFromMap(funcs, "bar", 1, 2, 3)
 	if err != nil {
 		t.Log(err.Error())
 	}

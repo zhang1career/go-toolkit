@@ -41,7 +41,19 @@ func ThisFunc() string {
 	return runtime.FuncForPC(pc).Name()
 }
 
-func Call(m map[string]interface{}, name string, params ...interface{}) ([]reflect.Value, error) {
+func Call(i interface{}, params ...interface{}) ([]reflect.Value, error) {
+	f := reflect.ValueOf(i)
+	if len(params) != f.Type().NumIn() {
+		return nil, fmt.Errorf("call with wrong number of params")
+	}
+	in := make([]reflect.Value, len(params))
+	for k, param := range params {
+		in[k] = reflect.ValueOf(param)
+	}
+	return f.Call(in), nil
+}
+
+func CallFromMap(m map[string]interface{}, name string, params ...interface{}) ([]reflect.Value, error) {
 	f := reflect.ValueOf(m[name])
 	if len(params) != f.Type().NumIn() {
 		return nil, fmt.Errorf("call %s with wrong number of params", name)
