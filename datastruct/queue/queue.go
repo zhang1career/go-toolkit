@@ -22,5 +22,5 @@ func (q *Queue) Pop() (value interface{}, err error) {
 }
 
 func (q *Queue) IsEmpty() (isEmpty bool) {
-	return len(*q) == 0
+	return len(*q) <= 0
 }
