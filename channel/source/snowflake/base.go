@@ -12,9 +12,9 @@ func SnowMake(group uint64, serial int) uint64 {
 	return group | (uint64(serial) & maskSerial)
 }
 
-func GetGroupBitcode(time int64, round int, machine int) uint64 {
-	return (uint64(time)    << offsetTime) & maskTime  |
-		   (uint64(round)   << offsetRound) & maskRound |
+func GetGroupBitcode(round int, time int64, machine int) uint64 {
+	return (uint64(round)   << offsetRound)   & maskRound |
+		   (uint64(time)    << offsetTime)    & maskTime  |
 		   (uint64(machine) << offsetMachine) & maskMachine
 }
 
@@ -28,9 +28,9 @@ func GetTime() int64 {
 }
 
 func SnowMelt(input uint64) (uint64, uint64, uint64, uint64) {
-	t := (input & maskTime) >> offsetTime
 	r := (input & maskRound) >> offsetRound
+	t := (input & maskTime) >> offsetTime
 	m := (input & maskMachine) >> offsetMachine
 	s := input & maskSerial
-	return t, r, m, s
+	return r, t, m, s
 }
