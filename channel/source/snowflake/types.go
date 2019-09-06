@@ -1,6 +1,6 @@
 package snowflake
 
-type Snowflake struct {
+type SnowGroup struct {
 	machine int
 	round   int
 	serial  int32

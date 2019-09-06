@@ -5,77 +5,77 @@ import (
 	"testing"
 )
 
-func TestSnowflake_Run(t *testing.T) {
+func TestSnowGroup_Reset_And_Do(t *testing.T) {
 	machine := 0
 
-	var id uint64
+	var id []uint64
 	var err error
 
-	snow1 := snowflake.New(machine)
+	sg1 := snowflake.CreateGroup(machine)
 
-	id, err = snow1.Do(); if err != nil {
+	id, err = sg1.Do(1); if err != nil {
 		t.Error(err.Error())
 	}
 	t.Logf("%0x\r", id)
 
-	id, err = snow1.Do(); if err != nil {
+	id, err = sg1.Do(1); if err != nil {
 		t.Error(err.Error())
 	}
 	t.Logf("%0x\r", id)
 
-	id, err = snow1.Do(); if err != nil {
+	id, err = sg1.Do(1); if err != nil {
 		t.Error(err.Error())
 	}
 	t.Logf("%0x\r", id)
 
-	snow1.Reset()
+	sg1.Reset()
 
-	id, err = snow1.Do(); if err != nil {
+	id, err = sg1.Do(1); if err != nil {
 		t.Error(err.Error())
 	}
 	t.Logf("%0x\r", id)
 
-	id, err = snow1.Do(); if err != nil {
+	id, err = sg1.Do(1); if err != nil {
 		t.Error(err.Error())
 	}
 	t.Logf("%0x\r", id)
 
-	id, err = snow1.Do(); if err != nil {
+	id, err = sg1.Do(1); if err != nil {
 		t.Error(err.Error())
 	}
 	t.Logf("%0x\r", id)
 
 
-	snow2 := snowflake.New(machine)
+	sg2 := snowflake.CreateGroup(machine)
 
-	id, err = snow2.Do(); if err != nil {
+	id, err = sg2.Do(1); if err != nil {
 		t.Error(err.Error())
 	}
 	t.Logf("%0x\r", id)
 
-	id, err = snow2.Do(); if err != nil {
+	id, err = sg2.Do(1); if err != nil {
 		t.Error(err.Error())
 	}
 	t.Logf("%0x\r", id)
 
-	id, err = snow2.Do(); if err != nil {
+	id, err = sg2.Do(1); if err != nil {
 		t.Error(err.Error())
 	}
 	t.Logf("%0x\r", id)
 
-	snow2.Reset()
+	sg2.Reset()
 
-	id, err = snow2.Do(); if err != nil {
+	id, err = sg2.Do(1); if err != nil {
 		t.Error(err.Error())
 	}
 	t.Logf("%0x\r", id)
 
-	id, err = snow2.Do(); if err != nil {
+	id, err = sg2.Do(1); if err != nil {
 		t.Error(err.Error())
 	}
 	t.Logf("%0x\r", id)
 
-	id, err = snow2.Do(); if err != nil {
+	id, err = sg2.Do(1); if err != nil {
 		t.Error(err.Error())
 	}
 	t.Logf("%0x\r", id)
