@@ -3,12 +3,13 @@ package snowflake
 import (
 	"fmt"
 	"github.com/zhang1career/lib/cache"
+	"github.com/zhang1career/lib/channel/concurrent"
 	"github.com/zhang1career/lib/log"
 	"github.com/zhang1career/lib/math/calc"
 	"sync/atomic"
 )
 
-func CreateGroup(machine int) *SnowGroup {
+func CreateGroup(machine int) concurrent.Work {
 	c := cache.NewOnce("localhost", 6379, nil)
 
 	key := fmt.Sprintf("snow:m[%0d]:r", machine)
@@ -29,7 +30,7 @@ func (this *SnowGroup) Reset() {
 	this.serial = 0
 }
 
-func (this *SnowGroup) Do(n int32) ([]uint64, error) {
+func (this *SnowGroup) Do(n interface{}) (interface{}, error) {
 	tmp := atomic.LoadInt32(&this.serial)
 	if tmp < 0 || tmp > SerialMax {
 		return nil, fmt.Errorf("id sold out, please try later")
