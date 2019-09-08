@@ -14,8 +14,8 @@ func createTester(id int) concurrent.Work {
 	return &testWorker{id: id}
 }
 
-func (t *testWorker) Do(in interface{}) (interface{}, error) {
-	return t.id + in.(int), nil
+func (t *testWorker) Do(in interface{}) interface{} {
+	return t.id + in.(int)
 }
 
 
@@ -25,13 +25,19 @@ func TestParser_Parse(t *testing.T) {
 	config := map[string]interface{}{
 		"ticker": time.Second,
 	}
-	parser.AddTeam(config, 3, createTester)
+	parser.AddTeam(config, 32, createTester)
 
 	parser.Run()
 
-	ret, err := parser.Parse(1); if err != nil {
-		t.Error(err.Error())
+	t.Log(parser.Parse(0))
+
+	sum := make(map[int]int, 32)
+
+	for i := 0; i < 100000; i++ {
+		index := parser.Parse(0).(int)
+		sum[index]++
 	}
-	t.Log(ret)
+
+	t.Log(sum)
 }
 

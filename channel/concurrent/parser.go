@@ -7,9 +7,9 @@ import (
 func CreateParser() *parser {
 	return &parser{
 		managers:   make([]*ctrlbus.Ctrlbus, 0),
-		wholesaler: &wholesaler{},
-		tasks:      make(chan *task),
-		products:   make(chan *product),
+		seekers:    make(chan chan interface{}),
+		input:      make(chan interface{}),
+		output:     make(chan interface{}),
 	}
 }
 
@@ -23,45 +23,41 @@ func (p *parser) AddTeam(config map[string]interface{}, num int, f func(i int) W
 		manager := ctrlbus.CreateCtrlbus(config)
 		p.managers = append(p.managers, manager)
 
-		team := createTeam(i, f(i))
-		team.run(manager, p.wholesaler, p.products)
+		team := createWorker(i, f(i))
+		team.run(manager, p.seekers, p.output)
 	}
 }
 
 func (p *parser) Run() {
 	go func() {
-		var teamQ = make([]*team, 0)
-		var taskQ = make([]*task, 0)
+		var seekerQ = make([]chan interface{}, 0)
+		var jobQ = make([]interface{}, 0)
 
 		for {
-			var tm0 *team
-			var tk0 *task
+			var seeker chan interface{}
+			var job interface{}
 
-			if len(teamQ) > 0 && len(taskQ) > 0 {
-				tm0 = teamQ[0]
-				tk0 = taskQ[0]
+			if len(seekerQ) > 0 && len(jobQ) > 0 {
+				seeker = seekerQ[0]
+				job = jobQ[0]
 			}
-			
+
 			select {
-			case tm := <-p.wholesaler.teams:
-				teamQ = append(teamQ, tm)
-			case tk := <-p.tasks:
-				taskQ = append(taskQ, tk)
-			case tm0.broker <- tk0:
-				teamQ = teamQ[1:]
-				taskQ = taskQ[1:]
+			case s := <-p.seekers:
+				seekerQ = append(seekerQ, s)
+			case j := <-p.input:
+				jobQ = append(jobQ, j)
+			case seeker <- job:
+				seekerQ = seekerQ[1:]
+				jobQ = jobQ[1:]
 			}
 		}
 	}()
 }
 
 
-func (p *parser) Parse(in interface{}) (interface{}, error) {
-	p.tasks <- &task{id: 1, job: in}
-
-	product := <- p.products
-	if product.taskId != 1 {
-		return nil, nil
-	}
-	return product.output, product.err
+func (p *parser) Parse(in interface{}) interface{} {
+	p.input <- in
+	output := <-p.output
+	return output
 }
