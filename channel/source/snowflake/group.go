@@ -13,7 +13,7 @@ import (
 func CreateGroup(ctrlbus *ctrlbus.Ctrlbus, machine int) *SnowGroup {
 	c := cache.NewOnce("localhost", 6379, nil)
 
-	key := fmt.Sprintf("snow:m[%0d]:r", machine)
+	key := fmt.Sprintf("snow:m[%03d]:r", machine)
 	round, ok := c.Incr(key); if !ok {
 		log.Fatal("fail to get round")
 	}

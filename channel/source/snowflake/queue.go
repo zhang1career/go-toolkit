@@ -4,11 +4,11 @@ import (
 	"github.com/zhang1career/lib/channel/concurrent"
 )
 
-func CreateQueue(config map[string]interface{}) *SnowQueue {
+func CreateQueue(config map[string]interface{}, count int) *SnowQueue {
 	//
 	p := concurrent.CreateParser()
 	//
-	p.AddTeam(config, 1, CreateGroupAsWorker)
+	p.AddTeam(config, count, CreateGroupAsWorker)
 	//
 	p.Run()
 

@@ -7,11 +7,11 @@ import (
 )
 
 
-func TestGetId(t *testing.T) {
+func TestSnowQueue_GetId(t *testing.T) {
 	config := map[string]interface{}{
 		"ticker": time.Second,
 	}
-	q := snowflake.CreateQueue(config)
+	q := snowflake.CreateQueue(config, 256)
 
 	for i := 0; i < 8193; i++ {
 		id, err := q.GetId()
@@ -20,5 +20,24 @@ func TestGetId(t *testing.T) {
 			continue
 		}
 		t.Log(id)
+	}
+}
+
+func BenchmarkSnowQueue_GetId(b *testing.B) {
+	b.StopTimer()
+
+	config := map[string]interface{}{
+		"ticker": time.Second,
+	}
+	q := snowflake.CreateQueue(config, 256)
+
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		_, err := q.GetId()
+		if err != nil {
+			b.Log(err.Error())
+			continue
+		}
+		//b.Log(id)
 	}
 }
