@@ -2,6 +2,7 @@ package concurrent_test
 
 import (
 	"github.com/zhang1career/lib/channel/concurrent"
+	"github.com/zhang1career/lib/channel/ctrlbus"
 	"testing"
 	"time"
 )
@@ -10,12 +11,12 @@ type testWorker struct {
 	id  int
 }
 
-func createTester(id int) concurrent.Work {
+func createTester(ctrlbus *ctrlbus.Ctrlbus, id int) concurrent.Work {
 	return &testWorker{id: id}
 }
 
-func (t *testWorker) Do(in interface{}) interface{} {
-	return t.id + in.(int)
+func (t *testWorker) Do(in interface{}) concurrent.Output {
+	return concurrent.CreateOutput(t.id + in.(int), nil)
 }
 
 
@@ -34,8 +35,8 @@ func TestParser_Parse(t *testing.T) {
 	sum := make(map[int]int, 32)
 
 	for i := 0; i < 100000; i++ {
-		index := parser.Parse(0).(int)
-		sum[index]++
+		output := parser.Parse(0)
+		sum[output.GetValue().(int)]++
 	}
 
 	t.Log(sum)

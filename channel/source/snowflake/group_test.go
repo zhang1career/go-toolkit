@@ -1,83 +1,89 @@
 package snowflake_test
 
 import (
+	"github.com/zhang1career/lib/channel/concurrent"
+	"github.com/zhang1career/lib/channel/ctrlbus"
 	"github.com/zhang1career/lib/channel/source/snowflake"
 	"testing"
+	"time"
 )
 
 func TestSnowGroup_Reset_And_Do(t *testing.T) {
 	machine := 0
 
-	var id []uint64
-	var err error
+	var output concurrent.Output
 
-	sg1 := snowflake.CreateGroup(machine)
-
-	id, err = sg1.Do(1); if err != nil {
-		t.Error(err.Error())
+	config := map[string]interface{}{
+		"ticker": time.Second,
 	}
-	t.Logf("%0x\r", id)
+	ctrlbus := ctrlbus.CreateCtrlbus(config)
 
-	id, err = sg1.Do(1); if err != nil {
-		t.Error(err.Error())
-	}
-	t.Logf("%0x\r", id)
+	sg1 := snowflake.CreateGroup(ctrlbus, machine)
 
-	id, err = sg1.Do(1); if err != nil {
-		t.Error(err.Error())
+	output = sg1.Do(1); if output.GetErr() != nil {
+		t.Error(output.GetErr().Error())
 	}
-	t.Logf("%0x\r", id)
+	t.Logf("%0x\r", output.GetValue())
+
+	output = sg1.Do(1); if output.GetErr() != nil {
+		t.Error(output.GetErr().Error())
+	}
+	t.Logf("%0x\r", output.GetValue())
+
+	output = sg1.Do(1); if output.GetErr() != nil {
+		t.Error(output.GetErr().Error())
+	}
+	t.Logf("%0x\r", output.GetValue())
 
 	sg1.Reset()
 
-	id, err = sg1.Do(1); if err != nil {
-		t.Error(err.Error())
+	output = sg1.Do(1); if output.GetErr() != nil {
+		t.Error(output.GetErr().Error())
 	}
-	t.Logf("%0x\r", id)
+	t.Logf("%0x\r", output.GetValue())
 
-	id, err = sg1.Do(1); if err != nil {
-		t.Error(err.Error())
+	output = sg1.Do(1); if output.GetErr() != nil {
+		t.Error(output.GetErr().Error())
 	}
-	t.Logf("%0x\r", id)
+	t.Logf("%0x\r", output.GetValue())
 
-	id, err = sg1.Do(1); if err != nil {
-		t.Error(err.Error())
+	output = sg1.Do(1); if output.GetErr() != nil {
+		t.Error(output.GetErr().Error())
 	}
-	t.Logf("%0x\r", id)
+	t.Logf("%0x\r", output.GetValue())
 
 
-	sg2 := snowflake.CreateGroup(machine)
+	sg2 := snowflake.CreateGroup(ctrlbus, machine)
 
-	id, err = sg2.Do(1); if err != nil {
-		t.Error(err.Error())
+	output = sg2.Do(1); if output.GetErr() != nil {
+		t.Error(output.GetErr().Error())
 	}
-	t.Logf("%0x\r", id)
+	t.Logf("%0x\r", output.GetValue())
 
-	id, err = sg2.Do(1); if err != nil {
-		t.Error(err.Error())
+	output = sg2.Do(1); if output.GetErr() != nil {
+		t.Error(output.GetErr().Error())
 	}
-	t.Logf("%0x\r", id)
+	t.Logf("%0x\r", output.GetValue())
 
-	id, err = sg2.Do(1); if err != nil {
-		t.Error(err.Error())
+	output = sg2.Do(1); if output.GetErr() != nil {
+		t.Error(output.GetErr().Error())
 	}
-	t.Logf("%0x\r", id)
+	t.Logf("%0x\r", output.GetValue())
 
 	sg2.Reset()
 
-	id, err = sg2.Do(1); if err != nil {
-		t.Error(err.Error())
+	output = sg2.Do(1); if output.GetErr() != nil {
+		t.Error(output.GetErr().Error())
 	}
-	t.Logf("%0x\r", id)
+	t.Logf("%0x\r", output.GetValue())
 
-	id, err = sg2.Do(1); if err != nil {
-		t.Error(err.Error())
+	output = sg2.Do(1); if output.GetErr() != nil {
+		t.Error(output.GetErr().Error())
 	}
-	t.Logf("%0x\r", id)
+	t.Logf("%0x\r", output.GetValue())
 
-	id, err = sg2.Do(1); if err != nil {
-		t.Error(err.Error())
+	output = sg2.Do(1); if output.GetErr() != nil {
+		t.Error(output.GetErr().Error())
 	}
-	t.Logf("%0x\r", id)
-
+	t.Logf("%0x\r", output.GetValue())
 }

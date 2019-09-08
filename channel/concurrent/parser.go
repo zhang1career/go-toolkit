@@ -4,16 +4,16 @@ import (
 	"github.com/zhang1career/lib/channel/ctrlbus"
 )
 
-func CreateParser() *parser {
-	return &parser{
+func CreateParser() *Parser {
+	return &Parser{
 		managers:   make([]*ctrlbus.Ctrlbus, 0),
 		seekers:    make(chan chan interface{}),
 		input:      make(chan interface{}),
-		output:     make(chan interface{}),
+		output:     make(chan Output),
 	}
 }
 
-func (p *parser) AddTeam(config map[string]interface{}, num int, f func(i int) Work) {
+func (p *Parser) AddTeam(config map[string]interface{}, num int, f func(*ctrlbus.Ctrlbus, int) Work) {
 	if num <= 0 {
 		return
 	}
@@ -23,12 +23,12 @@ func (p *parser) AddTeam(config map[string]interface{}, num int, f func(i int) W
 		manager := ctrlbus.CreateCtrlbus(config)
 		p.managers = append(p.managers, manager)
 
-		team := createWorker(i, f(i))
-		team.run(manager, p.seekers, p.output)
+		worker := createWorker(i, f(manager, i))
+		worker.run(manager, p.seekers, p.output)
 	}
 }
 
-func (p *parser) Run() {
+func (p *Parser) Run() {
 	go func() {
 		var seekerQ = make([]chan interface{}, 0)
 		var jobQ = make([]interface{}, 0)
@@ -56,8 +56,20 @@ func (p *parser) Run() {
 }
 
 
-func (p *parser) Parse(in interface{}) interface{} {
+func (p *Parser) Parse(in interface{}) Output {
 	p.input <- in
 	output := <-p.output
 	return output
+}
+
+func CreateOutput(val interface{}, err error) Output {
+	return Output{val,err}
+}
+
+func (o Output) GetValue() interface{} {
+	return o.value
+}
+
+func (o Output) GetErr() error {
+	return o.err
 }

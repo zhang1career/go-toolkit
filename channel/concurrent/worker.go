@@ -9,7 +9,7 @@ func createWorker(id int, work Work) *worker {
 	}
 }
 
-func (w *worker) run(ctrlbus *ctrlbus.Ctrlbus, seekers chan chan interface{}, output chan<- interface{}) {
+func (w *worker) run(ctrlbus *ctrlbus.Ctrlbus, seekers chan chan interface{}, output chan<- Output) {
 	go func() {
 		var seeker = make(chan interface{})
 		defer close(seeker)
