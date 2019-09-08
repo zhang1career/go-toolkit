@@ -26,7 +26,7 @@ func TestParser_Parse(t *testing.T) {
 	config := map[string]interface{}{
 		"ticker": time.Second,
 	}
-	parser.AddTeam(config, 32, createTester)
+	parser.AddWorker(config, 32, createTester)
 
 	parser.Run()
 

@@ -8,7 +8,7 @@ func CreateQueue(config map[string]interface{}, count int) *SnowQueue {
 	//
 	p := concurrent.CreateParser()
 	//
-	p.AddTeam(config, count, CreateGroupAsWorker)
+	p.AddWorker(config, count, CreateGroupAsWorker)
 	//
 	p.Run()
 

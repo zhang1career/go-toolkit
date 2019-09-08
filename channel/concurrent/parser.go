@@ -13,7 +13,7 @@ func CreateParser() *Parser {
 	}
 }
 
-func (p *Parser) AddTeam(config map[string]interface{}, num int, f func(*ctrlbus.Ctrlbus, int) Work) {
+func (p *Parser) AddWorker(config map[string]interface{}, num int, f func(*ctrlbus.Ctrlbus, int) Work) {
 	if num <= 0 {
 		return
 	}
