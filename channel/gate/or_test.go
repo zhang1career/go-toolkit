@@ -1,8 +1,8 @@
 package gate_test
 
 import (
-	"github.com/zhang1career/lib/channel/gate"
-	"github.com/zhang1career/lib/channel/source"
+	"github.com/zhang1career/golab/channel/gate"
+	"github.com/zhang1career/golab/channel/source"
 	"testing"
 )
 

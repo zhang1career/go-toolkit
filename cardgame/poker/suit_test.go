@@ -1,8 +1,8 @@
 package poker_test
 
 import (
-	"github.com/zhang1career/lib/cardgame"
-	"github.com/zhang1career/lib/cardgame/poker"
+	"github.com/zhang1career/golab/cardgame"
+	"github.com/zhang1career/golab/cardgame/poker"
 	"testing"
 )
 

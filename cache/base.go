@@ -3,7 +3,7 @@ package cache
 import (
 	"fmt"
 	"github.com/go-redis/redis"
-	"github.com/zhang1career/lib/log"
+	"github.com/zhang1career/golab/log"
 	"time"
 )
 

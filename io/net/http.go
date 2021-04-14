@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/zhang1career/app/www/action/file"
-	"github.com/zhang1career/lib/log"
+	"github.com/zhang1career/golab/log"
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/encoding"
 	"golang.org/x/text/encoding/unicode"

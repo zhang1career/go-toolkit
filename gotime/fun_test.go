@@ -2,7 +2,7 @@ package gotime_test
 
 import (
 	"fmt"
-	"github.com/zhang1career/lib/gotime"
+	"github.com/zhang1career/golab/gotime"
 	"testing"
 )
 

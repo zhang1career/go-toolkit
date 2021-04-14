@@ -1,6 +1,6 @@
 package concurrent
 
-import "github.com/zhang1career/lib/channel/ctrlbus"
+import "github.com/zhang1career/golab/channel/ctrlbus"
 
 func createWorker(id int, work Work) *worker {
 	return &worker{

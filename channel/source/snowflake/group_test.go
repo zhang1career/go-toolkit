@@ -1,9 +1,9 @@
 package snowflake_test
 
 import (
-	"github.com/zhang1career/lib/channel/concurrent"
-	"github.com/zhang1career/lib/channel/ctrlbus"
-	"github.com/zhang1career/lib/channel/source/snowflake"
+	"github.com/zhang1career/golab/channel/concurrent"
+	"github.com/zhang1career/golab/channel/ctrlbus"
+	"github.com/zhang1career/golab/channel/source/snowflake"
 	"testing"
 	"time"
 )

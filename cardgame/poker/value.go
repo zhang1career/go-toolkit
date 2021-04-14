@@ -2,7 +2,7 @@ package poker
 
 import (
 	"fmt"
-	"github.com/zhang1career/lib/cardgame"
+	"github.com/zhang1career/golab/cardgame"
 )
 
 func (this *Poker) GetMostCards(cards []cardgame.Card, count int) ([]cardgame.Card, error) {

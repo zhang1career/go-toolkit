@@ -3,7 +3,7 @@ package file_test
 import (
 	"container/list"
 	"fmt"
-	"github.com/zhang1career/lib/io/file"
+	"github.com/zhang1career/golab/io/file"
 	"testing"
 )
 

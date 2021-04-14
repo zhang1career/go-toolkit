@@ -2,8 +2,8 @@ package filter_test
 
 import (
 	"fmt"
-	"github.com/zhang1career/lib/channel/filter"
-	"github.com/zhang1career/lib/channel/source"
+	"github.com/zhang1career/golab/channel/filter"
+	"github.com/zhang1career/golab/channel/source"
 	"testing"
 )
 

@@ -1,8 +1,8 @@
 package engine
 
 import (
-	"github.com/zhang1career/lib/io/net"
-	"github.com/zhang1career/lib/log"
+	"github.com/zhang1career/golab/io/net"
+	"github.com/zhang1career/golab/log"
 )
 
 type worker struct {

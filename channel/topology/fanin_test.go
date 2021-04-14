@@ -1,9 +1,9 @@
 package topology_test
 
 import (
-	"github.com/zhang1career/lib/channel/manager"
-	"github.com/zhang1career/lib/channel/mux"
-	"github.com/zhang1career/lib/channel/source"
+	"github.com/zhang1career/golab/channel/manager"
+	"github.com/zhang1career/golab/channel/mux"
+	"github.com/zhang1career/golab/channel/source"
 	"testing"
 )
 

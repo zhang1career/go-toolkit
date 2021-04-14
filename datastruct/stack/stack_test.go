@@ -1,7 +1,7 @@
 package stack_test
 
 import (
-	"github.com/zhang1career/lib/datastruct/stack"
+	"github.com/zhang1career/golab/datastruct/stack"
 	"testing"
 )
 

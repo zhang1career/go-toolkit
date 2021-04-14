@@ -1,10 +1,10 @@
 package texas
 
 import (
-	"github.com/zhang1career/lib/calc"
-	"github.com/zhang1career/lib/cardgame"
-	"github.com/zhang1career/lib/cardgame/poker"
-	"github.com/zhang1career/lib/log"
+	"github.com/zhang1career/golab/calc"
+	"github.com/zhang1career/golab/cardgame"
+	"github.com/zhang1career/golab/cardgame/poker"
+	"github.com/zhang1career/golab/log"
 )
 
 func (this *Texas) Evaluate(originCards []cardgame.Card) (winCate int, winScore float64) {

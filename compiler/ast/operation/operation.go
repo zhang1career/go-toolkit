@@ -1,12 +1,12 @@
 package operation
 
 import (
-	"github.com/zhang1career/lib/compiler"
-	"github.com/zhang1career/lib/compiler/ast"
-	"github.com/zhang1career/lib/compiler/ast/operand"
-	"github.com/zhang1career/lib/compiler/ast/operator"
-	"github.com/zhang1career/lib/gotime"
-	"github.com/zhang1career/lib/log"
+	"github.com/zhang1career/golab/compiler"
+	"github.com/zhang1career/golab/compiler/ast"
+	"github.com/zhang1career/golab/compiler/ast/operand"
+	"github.com/zhang1career/golab/compiler/ast/operator"
+	"github.com/zhang1career/golab/gotime"
+	"github.com/zhang1career/golab/log"
 	"reflect"
 )
 

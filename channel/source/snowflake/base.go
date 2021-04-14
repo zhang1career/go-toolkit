@@ -1,7 +1,7 @@
 package snowflake
 
 import (
-	"github.com/zhang1career/lib/log"
+	"github.com/zhang1career/golab/log"
 	"time"
 )
 

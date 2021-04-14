@@ -1,7 +1,7 @@
 package snowflake
 
 import (
-	"github.com/zhang1career/lib/channel/concurrent"
+	"github.com/zhang1career/golab/channel/concurrent"
 )
 
 func CreateQueue(config map[string]interface{}, count int) *SnowQueue {

@@ -1,7 +1,7 @@
 package cardgame_test
 
 import (
-	"github.com/zhang1career/lib/cardgame"
+	"github.com/zhang1career/golab/cardgame"
 	"testing"
 )
 

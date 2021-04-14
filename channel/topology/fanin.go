@@ -2,7 +2,7 @@ package topology
 
 import (
 	"fmt"
-	"github.com/zhang1career/lib/channel/manager"
+	"github.com/zhang1career/golab/channel/manager"
 )
 
 func Fanin(m *manager.Manager, varIns ...<-chan interface{}) (<-chan interface{}, error) {

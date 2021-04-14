@@ -1,6 +1,6 @@
 package snowflake
 
-import "github.com/zhang1career/lib/channel/concurrent"
+import "github.com/zhang1career/golab/channel/concurrent"
 
 type SnowGroup struct {
 	machine int

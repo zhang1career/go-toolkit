@@ -1,6 +1,6 @@
 package gt
 
-import "github.com/zhang1career/lib/compiler/ast"
+import "github.com/zhang1career/golab/compiler/ast"
 
 type Gt struct {
 	value string

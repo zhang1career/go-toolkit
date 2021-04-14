@@ -1,10 +1,10 @@
 package operand
 
 import (
-	"github.com/zhang1career/lib/compiler/ast"
-	"github.com/zhang1career/lib/compiler/ast/operand/instance/charray"
-	"github.com/zhang1career/lib/compiler/ast/operand/instance/integer"
-	"github.com/zhang1career/lib/gotime"
+	"github.com/zhang1career/golab/compiler/ast"
+	"github.com/zhang1career/golab/compiler/ast/operand/instance/charray"
+	"github.com/zhang1career/golab/compiler/ast/operand/instance/integer"
+	"github.com/zhang1career/golab/gotime"
 	"reflect"
 )
 

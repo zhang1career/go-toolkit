@@ -2,7 +2,7 @@ package security_test
 
 import (
 	"fmt"
-	"github.com/zhang1career/lib/security"
+	"github.com/zhang1career/golab/security"
 	"testing"
 )
 

@@ -1,7 +1,7 @@
 package concurrent
 
 import (
-	"github.com/zhang1career/lib/channel/ctrlbus"
+	"github.com/zhang1career/golab/channel/ctrlbus"
 )
 
 func CreateParser() *Parser {

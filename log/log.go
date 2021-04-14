@@ -2,8 +2,8 @@ package log
 
 import (
 	"fmt"
-	"github.com/zhang1career/lib/datastruct/bit"
-	"github.com/zhang1career/lib/gotime"
+	"github.com/zhang1career/golab/datastruct/bit"
+	"github.com/zhang1career/golab/gotime"
 	"os"
 	"time"
 )

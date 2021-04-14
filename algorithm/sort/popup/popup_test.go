@@ -1,7 +1,7 @@
 package popup_test
 
 import (
-	"github.com/zhang1career/lib/algorithm/sort/popup"
+	"github.com/zhang1career/golab/algorithm/sort/popup"
 	"testing"
 )
 

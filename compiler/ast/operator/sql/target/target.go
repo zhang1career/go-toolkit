@@ -1,7 +1,7 @@
 package target
 
 import (
-	"github.com/zhang1career/lib/compiler/ast"
+	"github.com/zhang1career/golab/compiler/ast"
 )
 
 type Target struct {

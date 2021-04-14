@@ -1,7 +1,7 @@
 package unidim_test
 
 import (
-	"github.com/zhang1career/lib/datastruct/dim/unidim"
+	"github.com/zhang1career/golab/datastruct/dim/unidim"
 	"testing"
 )
 

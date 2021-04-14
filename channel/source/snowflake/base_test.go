@@ -1,7 +1,7 @@
 package snowflake_test
 
 import (
-	"github.com/zhang1career/lib/channel/source/snowflake"
+	"github.com/zhang1career/golab/channel/source/snowflake"
 	"math/rand"
 	"testing"
 )

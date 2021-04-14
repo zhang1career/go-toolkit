@@ -2,7 +2,7 @@ package mtree
 
 import (
 	"fmt"
-	"github.com/zhang1career/lib/gotime"
+	"github.com/zhang1career/golab/gotime"
 )
 
 type Node struct {

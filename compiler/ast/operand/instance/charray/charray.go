@@ -1,8 +1,8 @@
 package charray
 
 import (
-	"github.com/zhang1career/lib/compiler/ast"
-	"github.com/zhang1career/lib/log"
+	"github.com/zhang1career/golab/compiler/ast"
+	"github.com/zhang1career/golab/log"
 )
 
 type Charray struct {

@@ -1,6 +1,6 @@
 package concurrent
 
-import "github.com/zhang1career/lib/channel/ctrlbus"
+import "github.com/zhang1career/golab/channel/ctrlbus"
 
 type Work interface {
 	Do(interface{}) Output

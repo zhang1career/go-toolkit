@@ -2,11 +2,11 @@ package snowflake
 
 import (
 	"fmt"
-	"github.com/zhang1career/lib/cache"
-	"github.com/zhang1career/lib/channel/concurrent"
-	"github.com/zhang1career/lib/channel/ctrlbus"
-	"github.com/zhang1career/lib/log"
-	"github.com/zhang1career/lib/math/calc"
+	"github.com/zhang1career/golab/cache"
+	"github.com/zhang1career/golab/channel/concurrent"
+	"github.com/zhang1career/golab/channel/ctrlbus"
+	"github.com/zhang1career/golab/log"
+	"github.com/zhang1career/golab/math/calc"
 	"sync/atomic"
 )
 

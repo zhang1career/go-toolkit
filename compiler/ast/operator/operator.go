@@ -1,14 +1,14 @@
 package operator
 
 import (
-	"github.com/zhang1career/lib/gotime"
-	"github.com/zhang1career/lib/compiler/ast"
-	"github.com/zhang1career/lib/compiler/ast/operator/calc/add"
-	"github.com/zhang1career/lib/compiler/ast/operator/comp/gt"
-	"github.com/zhang1career/lib/compiler/ast/operator/sql/cond"
-	"github.com/zhang1career/lib/compiler/ast/operator/sql/from"
-	"github.com/zhang1career/lib/compiler/ast/operator/sql/sel"
-	"github.com/zhang1career/lib/compiler/ast/operator/sql/target"
+	"github.com/zhang1career/golab/gotime"
+	"github.com/zhang1career/golab/compiler/ast"
+	"github.com/zhang1career/golab/compiler/ast/operator/calc/add"
+	"github.com/zhang1career/golab/compiler/ast/operator/comp/gt"
+	"github.com/zhang1career/golab/compiler/ast/operator/sql/cond"
+	"github.com/zhang1career/golab/compiler/ast/operator/sql/from"
+	"github.com/zhang1career/golab/compiler/ast/operator/sql/sel"
+	"github.com/zhang1career/golab/compiler/ast/operator/sql/target"
 )
 
 var OperatorMap = map[string]interface{} {

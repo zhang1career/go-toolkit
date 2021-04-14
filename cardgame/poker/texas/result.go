@@ -1,8 +1,8 @@
 package texas
 
 import (
-	"github.com/zhang1career/lib/cardgame"
-	"github.com/zhang1career/lib/log"
+	"github.com/zhang1career/golab/cardgame"
+	"github.com/zhang1career/golab/log"
 )
 
 type Result struct {

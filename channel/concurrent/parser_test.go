@@ -1,8 +1,8 @@
 package concurrent_test
 
 import (
-	"github.com/zhang1career/lib/channel/concurrent"
-	"github.com/zhang1career/lib/channel/ctrlbus"
+	"github.com/zhang1career/golab/channel/concurrent"
+	"github.com/zhang1career/golab/channel/ctrlbus"
 	"testing"
 	"time"
 )

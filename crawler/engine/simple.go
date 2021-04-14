@@ -2,8 +2,8 @@ package engine
 
 import (
 	"fmt"
-	"github.com/zhang1career/lib/datastruct/tree/ttree"
-	"github.com/zhang1career/lib/log"
+	"github.com/zhang1career/golab/datastruct/tree/ttree"
+	"github.com/zhang1career/golab/log"
 )
 
 type SimpleEngine struct {

@@ -2,7 +2,7 @@ package poker
 
 
 import (
-	"github.com/zhang1career/lib/cardgame"
+	"github.com/zhang1career/golab/cardgame"
 )
 
 func (this *Poker) HasSuit(cards []cardgame.Card, count int) (bool, [][]cardgame.Card) {

@@ -1,7 +1,7 @@
 package gotime
 
 import (
-	"github.com/zhang1career/lib/datastruct/bit"
+	"github.com/zhang1career/golab/datastruct/bit"
 	"runtime"
 	"testing"
 	"time"
